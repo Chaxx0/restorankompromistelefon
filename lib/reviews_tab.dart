@@ -1,10 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'api_service.dart';
+
 class ReviewsTab extends StatefulWidget {
   @override
   _ReviewsTabState createState() => _ReviewsTabState();
 }
+
 class _ReviewsTabState extends State<ReviewsTab> {
   final Color primaryGold = const Color(0xFFFFD700);
   final Color surfaceDark = const Color(0xFF1A1A1A);
@@ -15,11 +17,13 @@ class _ReviewsTabState extends State<ReviewsTab> {
   List<dynamic> _reviews = [];
   int _selectedRating = 5;
   final TextEditingController _reviewController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     _loadData();
   }
+
   Future<void> _loadData() async {
     setState(() { _isLoading = true; });
     String? userId = await ApiService.getUserId();
@@ -32,10 +36,11 @@ class _ReviewsTabState extends State<ReviewsTab> {
       });
     }
   }
+
   Future<void> _submitReview() async {
     if (_reviewController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Напишіть текст відгуку!'), backgroundColor: Colors.orange),
+        const SnackBar(content: Text('Please write your review text!'), backgroundColor: Colors.orange),
       );
       return;
     }
@@ -45,14 +50,14 @@ class _ReviewsTabState extends State<ReviewsTab> {
       bool success = await ApiService.addReview(userId, _reviewController.text.trim(), _selectedRating);
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Дякуємо за ваш відгук!'), backgroundColor: Colors.green),
+          const SnackBar(content: Text('Thank you for your review!'), backgroundColor: Colors.green),
         );
         _reviewController.clear();
         setState(() { _selectedRating = 5; });
         await _loadData();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Помилка сервера. Спробуйте пізніше.'), backgroundColor: Colors.redAccent),
+          const SnackBar(content: Text('Server error. Please try later.'), backgroundColor: Colors.redAccent),
         );
       }
     }
@@ -61,6 +66,7 @@ class _ReviewsTabState extends State<ReviewsTab> {
       setState(() { _isSubmitting = false; });
     }
   }
+
   String _formatDate(String isoDate) {
     try {
       final date = DateTime.parse(isoDate).toLocal();
@@ -69,11 +75,13 @@ class _ReviewsTabState extends State<ReviewsTab> {
       return isoDate;
     }
   }
+
   @override
   void dispose() {
     _reviewController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,12 +91,12 @@ class _ReviewsTabState extends State<ReviewsTab> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
-        title: Text('Відгуки', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+        title: Text('Reviews', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
         centerTitle: true,
       ),
       body: Stack(
         children: [
-          // Фон
+          // Background
           Positioned.fill(
             child: Image.network(
               'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2000',
@@ -109,7 +117,7 @@ class _ReviewsTabState extends State<ReviewsTab> {
                   _isLoggedIn ? _buildReviewForm() : _buildLoginPrompt(),
 
                   const SizedBox(height: 40),
-                  Text('Враження наших гостей', style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
+                  Text('Guest impressions', style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 20),
                   if (_reviews.isEmpty)
                     _buildGlassCard(
@@ -120,7 +128,7 @@ class _ReviewsTabState extends State<ReviewsTab> {
                             children: [
                               Icon(Icons.comment_outlined, color: Colors.white24, size: 60),
                               SizedBox(height: 16),
-                              Text('Тут поки порожньо. Станьте першим!', style: TextStyle(color: Colors.white54, fontSize: 16)),
+                              Text('It\'s empty here. Be the first!', style: TextStyle(color: Colors.white54, fontSize: 16)),
                             ],
                           ),
                         ),
@@ -136,12 +144,13 @@ class _ReviewsTabState extends State<ReviewsTab> {
       ),
     );
   }
+
   Widget _buildReviewForm() {
     return _buildGlassCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Залишити відгук', style: TextStyle(color: primaryGold, fontSize: 20, fontWeight: FontWeight.bold)),
+          Text('Leave a review', style: TextStyle(color: primaryGold, fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -165,7 +174,7 @@ class _ReviewsTabState extends State<ReviewsTab> {
             maxLines: 4,
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
-              hintText: 'Поділіться своїми враженнями...',
+              hintText: 'Share your impressions...',
               hintStyle: const TextStyle(color: Colors.white38),
               filled: true,
               fillColor: Colors.black.withOpacity(0.5),
@@ -186,13 +195,14 @@ class _ReviewsTabState extends State<ReviewsTab> {
               ),
               child: _isSubmitting
                   ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.black, strokeWidth: 2))
-                  : const Text('ВІДПРАВИТИ', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                  : const Text('SEND', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
             ),
           ),
         ],
       ),
     );
   }
+
   Widget _buildLoginPrompt() {
     return _buildGlassCard(
       child: Column(
@@ -200,16 +210,17 @@ class _ReviewsTabState extends State<ReviewsTab> {
         children: [
           Icon(Icons.lock_outline, color: primaryGold.withOpacity(0.5), size: 48),
           const SizedBox(height: 16),
-          const Text('Хочете залишити відгук?', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+          const Text('Want to leave a review?', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          const Text('Відгуки можуть залишати лише зареєстровані гості.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white54, fontSize: 14)),
+          const Text('Only registered guests can leave reviews.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white54, fontSize: 14)),
         ],
       ),
     );
   }
+
   Widget _buildReviewCard(Map<String, dynamic> review) {
     int rating = review['rating'] ?? 5;
-    String name = review['userName'] ?? 'Гість';
+    String name = review['userName'] ?? 'Guest';
     String text = review['text'] ?? '';
     String date = _formatDate(review['createdAt'] ?? '');
 

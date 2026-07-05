@@ -46,6 +46,9 @@ class _BookingTabState extends State<BookingTab> {
   int? _selectedTableId;
   final TextEditingController _wishesController = TextEditingController();
 
+  // Стан для вибору методу оплати (залишили)
+  String _paymentMethod = 'card';
+
   Timer? _pollingTimer;
 
   Map<int, List<String>> _dailySchedules = {};
@@ -53,36 +56,36 @@ class _BookingTabState extends State<BookingTab> {
   final List<String> availableTimes = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
 
   final List<RestTable> tables = [
-    RestTable(1, 1, 12, 18, 6, true, 'Внутрішній зал', '/images/table1.jpg'),
-    RestTable(2, 2, 28, 18, 6, true, 'Внутрішній зал', '/images/table2.jpg'),
-    RestTable(3, 3, 10, 35, 4, false, 'Внутрішній зал', '/images/table3.jpg'),
-    RestTable(4, 4, 22, 35, 4, false, 'Внутрішній зал', '/images/table4.jpg'),
-    RestTable(5, 5, 34, 35, 2, false, 'Внутрішній зал', '/images/table5.jpg'),
-    RestTable(6, 6, 46, 35, 4, false, 'Внутрішній зал', '/images/table6.jpg'),
-    RestTable(7, 7, 10, 50, 4, false, 'Внутрішній зал', '/images/table7.jpg'),
-    RestTable(8, 8, 22, 50, 4, false, 'Внутрішній зал', '/images/table8.jpg'),
-    RestTable(9, 9, 34, 50, 2, false, 'Внутрішній зал', '/images/table9.jpg'),
-    RestTable(10, 10, 46, 50, 4, false, 'Внутрішній зал', '/images/table10.jpg'),
-    RestTable(11, 11, 15, 68, 6, false, 'Внутрішній зал', '/images/table11.jpg'),
-    RestTable(12, 12, 30, 68, 4, false, 'Внутрішній зал', '/images/table12.jpg'),
-    RestTable(13, 13, 42, 68, 2, false, 'Внутрішній зал', '/images/table13.jpg'),
-    RestTable(14, 14, 52, 15, 2, false, 'Внутрішній зал', '/images/table14.jpg'),
-    RestTable(15, 15, 52, 25, 2, false, 'Внутрішній зал', '/images/table15.jpg'),
-    RestTable(16, 16, 52, 60, 2, false, 'Внутрішній зал', '/images/table16.jpg'),
-    RestTable(17, 17, 75, 15, 4, false, 'Тераса', '/images/table17.jpg'),
-    RestTable(18, 18, 90, 15, 4, false, 'Тераса', '/images/table18.jpg'),
-    RestTable(19, 19, 75, 35, 2, false, 'Тераса', '/images/table19.jpg'),
-    RestTable(20, 20, 90, 35, 4, false, 'Тераса', '/images/table20.jpg'),
-    RestTable(21, 21, 82, 55, 6, false, 'Тераса', '/images/table21.jpg'),
-    RestTable(22, 22, 75, 75, 4, false, 'Тераса', '/images/table22.jpg'),
-    RestTable(23, 23, 90, 75, 4, false, 'Тераса', '/images/table23.jpg'),
-    RestTable(24, 24, 82, 90, 2, false, 'Тераса', '/images/table24.jpg'),
-    RestTable(25, 25, 15, 85, 4, false, 'Вулиця', '/images/table25.jpg'),
-    RestTable(26, 26, 28, 85, 4, false, 'Вулиця', '/images/table26.jpg'),
-    RestTable(27, 27, 41, 85, 4, false, 'Вулиця', '/images/table27.jpg'),
-    RestTable(28, 28, 15, 96, 6, false, 'Вулиця', '/images/table28.jpg'),
-    RestTable(29, 29, 30, 96, 2, false, 'Вулиця', '/images/table29.jpg'),
-    RestTable(30, 30, 45, 96, 2, false, 'Вулиця', '/images/table30.jpg'),
+    RestTable(1, 1, 12, 18, 6, true, 'Indoor Hall', '/images/table1.jpg'),
+    RestTable(2, 2, 28, 18, 6, true, 'Indoor Hall', '/images/table2.jpg'),
+    RestTable(3, 3, 10, 35, 4, false, 'Indoor Hall', '/images/table3.jpg'),
+    RestTable(4, 4, 22, 35, 4, false, 'Indoor Hall', '/images/table4.jpg'),
+    RestTable(5, 5, 34, 35, 2, false, 'Indoor Hall', '/images/table5.jpg'),
+    RestTable(6, 6, 46, 35, 4, false, 'Indoor Hall', '/images/table6.jpg'),
+    RestTable(7, 7, 10, 50, 4, false, 'Indoor Hall', '/images/table7.jpg'),
+    RestTable(8, 8, 22, 50, 4, false, 'Indoor Hall', '/images/table8.jpg'),
+    RestTable(9, 9, 34, 50, 2, false, 'Indoor Hall', '/images/table9.jpg'),
+    RestTable(10, 10, 46, 50, 4, false, 'Indoor Hall', '/images/table10.jpg'),
+    RestTable(11, 11, 15, 68, 6, false, 'Indoor Hall', '/images/table11.jpg'),
+    RestTable(12, 12, 30, 68, 4, false, 'Indoor Hall', '/images/table12.jpg'),
+    RestTable(13, 13, 42, 68, 2, false, 'Indoor Hall', '/images/table13.jpg'),
+    RestTable(14, 14, 52, 15, 2, false, 'Indoor Hall', '/images/table14.jpg'),
+    RestTable(15, 15, 52, 25, 2, false, 'Indoor Hall', '/images/table15.jpg'),
+    RestTable(16, 16, 52, 60, 2, false, 'Indoor Hall', '/images/table16.jpg'),
+    RestTable(17, 17, 75, 15, 4, false, 'Terrace', '/images/table17.jpg'),
+    RestTable(18, 18, 90, 15, 4, false, 'Terrace', '/images/table18.jpg'),
+    RestTable(19, 19, 75, 35, 2, false, 'Terrace', '/images/table19.jpg'),
+    RestTable(20, 20, 90, 35, 4, false, 'Terrace', '/images/table20.jpg'),
+    RestTable(21, 21, 82, 55, 6, false, 'Terrace', '/images/table21.jpg'),
+    RestTable(22, 22, 75, 75, 4, false, 'Terrace', '/images/table22.jpg'),
+    RestTable(23, 23, 90, 75, 4, false, 'Terrace', '/images/table23.jpg'),
+    RestTable(24, 24, 82, 90, 2, false, 'Terrace', '/images/table24.jpg'),
+    RestTable(25, 25, 15, 85, 4, false, 'Outside', '/images/table25.jpg'),
+    RestTable(26, 26, 28, 85, 4, false, 'Outside', '/images/table26.jpg'),
+    RestTable(27, 27, 41, 85, 4, false, 'Outside', '/images/table27.jpg'),
+    RestTable(28, 28, 15, 96, 6, false, 'Outside', '/images/table28.jpg'),
+    RestTable(29, 29, 30, 96, 2, false, 'Outside', '/images/table29.jpg'),
+    RestTable(30, 30, 45, 96, 2, false, 'Outside', '/images/table30.jpg'),
   ];
 
   @override
@@ -123,15 +126,6 @@ class _BookingTabState extends State<BookingTab> {
     if (mounted) {
       setState(() {
         _dailySchedules = schedules;
-
-        // 🔥 МАГІЯ ДЛЯ ПРЕЗЕНТАЦІЇ: Примусово робимо 10-й столик зайнятим
-        if (_dailySchedules.containsKey(10)) {
-          if (!_dailySchedules[10]!.contains("19:00-21:00")) {
-            _dailySchedules[10]!.add("19:00-21:00");
-          }
-        } else {
-          _dailySchedules[10] = ["19:00-21:00"];
-        }
       });
     }
   }
@@ -170,10 +164,10 @@ class _BookingTabState extends State<BookingTab> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(table.isVip ? 'VIP Стіл №${table.num}' : 'Стіл №${table.num}', style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.bold)),
+                              Text(table.isVip ? 'VIP Table #${table.num}' : 'Table #${table.num}', style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.bold)),
                               const SizedBox(height: 8),
-                              Text('Зона: ${table.zone}', style: const TextStyle(color: Colors.white70, fontSize: 14)),
-                              Text('Макс. кількість гостей: ${table.seats}', style: TextStyle(color: primaryGold, fontSize: 14, fontWeight: FontWeight.bold)),
+                              Text('Zone: ${table.zone}', style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                              Text('Max guests: ${table.seats}', style: TextStyle(color: primaryGold, fontSize: 14, fontWeight: FontWeight.bold)),
                               const SizedBox(height: 16),
 
                               Container(
@@ -182,10 +176,10 @@ class _BookingTabState extends State<BookingTab> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text('Зайняті години:', style: TextStyle(color: Colors.white54, fontSize: 12, fontWeight: FontWeight.bold)),
+                                    const Text('Reserved hours:', style: TextStyle(color: Colors.white54, fontSize: 12, fontWeight: FontWeight.bold)),
                                     const SizedBox(height: 8),
                                     if (busySlots.isEmpty)
-                                      Row(children: const [Icon(Icons.check_circle, color: Colors.greenAccent, size: 16), SizedBox(width: 8), Text('Стіл повністю вільний сьогодні!', style: TextStyle(color: Colors.greenAccent, fontSize: 13, fontWeight: FontWeight.bold))])
+                                      Row(children: const [Icon(Icons.check_circle, color: Colors.greenAccent, size: 16), SizedBox(width: 8), Text('Table is completely free today!', style: TextStyle(color: Colors.greenAccent, fontSize: 13, fontWeight: FontWeight.bold))])
                                     else
                                       Wrap(
                                         spacing: 8,
@@ -200,7 +194,7 @@ class _BookingTabState extends State<BookingTab> {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              const Text('Оберіть час візиту', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                              const Text('Select visit time', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                               const Divider(color: Colors.white24),
                               Row(
                                 children: [
@@ -208,7 +202,7 @@ class _BookingTabState extends State<BookingTab> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text('Початок', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                                        const Text('Start', style: TextStyle(color: Colors.white54, fontSize: 12)),
                                         const SizedBox(height: 4),
                                         _buildTimeDropdown(tempStartTime, (val) => setStateModal(() => tempStartTime = val!)),
                                       ],
@@ -219,7 +213,7 @@ class _BookingTabState extends State<BookingTab> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text('Завершення', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                                        const Text('End', style: TextStyle(color: Colors.white54, fontSize: 12)),
                                         const SizedBox(height: 4),
                                         _buildTimeDropdown(tempEndTime, (val) => setStateModal(() => tempEndTime = val!)),
                                       ],
@@ -234,7 +228,7 @@ class _BookingTabState extends State<BookingTab> {
                                   style: ElevatedButton.styleFrom(backgroundColor: primaryGold, foregroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                                   onPressed: () {
                                     if (tempStartTime.compareTo(tempEndTime) >= 0) {
-                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Час завершення має бути пізніше часу початку!'), backgroundColor: Colors.redAccent));
+                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('End time must be after start time!'), backgroundColor: Colors.redAccent));
                                       return;
                                     }
                                     bool hasOverlap = false;
@@ -249,7 +243,7 @@ class _BookingTabState extends State<BookingTab> {
                                     }
 
                                     if (hasOverlap) {
-                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Ой! Цей час перетинається із зайнятими годинами. Оберіть інший.'), backgroundColor: Colors.redAccent));
+                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Oops! This time overlaps with reserved hours. Please choose another.'), backgroundColor: Colors.redAccent));
                                       return;
                                     }
 
@@ -258,9 +252,9 @@ class _BookingTabState extends State<BookingTab> {
                                       _selectedTimeRange = '$tempStartTime-$tempEndTime';
                                     });
                                     Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Стіл №${table.num} обрано!'), backgroundColor: Colors.green));
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Table #${table.num} selected!'), backgroundColor: Colors.green));
                                   },
-                                  child: const Text('ПІДТВЕРДИТИ', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                                  child: const Text('CONFIRM', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
                                 ),
                               ),
                             ],
@@ -292,9 +286,21 @@ class _BookingTabState extends State<BookingTab> {
     );
   }
 
+  void _postBookingCleanup() {
+    if (widget.isFromCart || widget.isFromLobby) {
+      Navigator.pop(context);
+    } else {
+      setState(() {
+        _selectedTableId = null;
+        _wishesController.clear();
+        _fetchOccupiedTables();
+      });
+    }
+  }
+
   Future<void> _submitBooking() async {
     if (_selectedTableId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Будь ласка, оберіть столик на карті!'), backgroundColor: Colors.redAccent));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select a table on the map!'), backgroundColor: Colors.redAccent));
       return;
     }
 
@@ -316,7 +322,7 @@ class _BookingTabState extends State<BookingTab> {
       for (var item in CartManager.cartItems.value) {
         itemsPayload.add({
           'DishId': int.tryParse(item['id']?.toString() ?? '0') ?? 0,
-          'Name': item['name'] ?? 'Страва',
+          'Name': item['name'] ?? 'Dish',
           'Quantity': item['quantity'] ?? 1,
           'Price': double.tryParse(item['price']?.toString() ?? '0') ?? 0.0
         });
@@ -325,7 +331,7 @@ class _BookingTabState extends State<BookingTab> {
     else if (widget.isFromLobby && widget.lobbyCart != null) {
       finalTotal = widget.lobbyTotal ?? 0.0;
       for (var item in widget.lobbyCart!) {
-        String name = item['name'] ?? item['Name'] ?? 'Страва';
+        String name = item['name'] ?? item['Name'] ?? 'Dish';
         int dishId = int.tryParse(item['id']?.toString() ?? item['dishId']?.toString() ?? item['DishId']?.toString() ?? '0') ?? 0;
 
         if (dishId == 0 && fullMenu.isNotEmpty) {
@@ -346,7 +352,7 @@ class _BookingTabState extends State<BookingTab> {
 
     String finalWishes = _wishesController.text.trim();
     if (widget.isFromLobby) {
-      finalWishes = "[Замовлення з Лоббі ${widget.lobbyCode}]\n" + finalWishes;
+      finalWishes = "[Lobby Order ${widget.lobbyCode}]\n" + finalWishes;
     }
 
     Map<String, dynamic> bookingData = {
@@ -364,34 +370,32 @@ class _BookingTabState extends State<BookingTab> {
 
     if (bookingSuccess) {
       if (widget.isFromCart) CartManager.clearCart();
+
       if (mounted) {
         setState(() { _isSubmitting = false; });
 
-        // Використовуємо push замість pushReplacement, щоб відкрити оплату ПОВЕРХ бронювання
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PaymentScreen(amount: finalTotal),
-          ),
-        ).then((_) {
-          // Цей блок виконається, коли вікно оплати закриється (успішно або по кнопці "назад")
-          if (widget.isFromCart || widget.isFromLobby) {
-            // Якщо ми прийшли з кошика чи лоббі, закриваємо і цей екран теж
-            Navigator.pop(context);
-          } else {
-            // Якщо ми просто бронювали на головній вкладці — скидаємо вибір столика
-            setState(() {
-              _selectedTableId = null;
-              _wishesController.clear();
-              _fetchOccupiedTables(); // Оновлюємо розклад після нашого бронювання
-            });
-          }
-        });
+        // Перевіряємо метод оплати (залишили логіку)
+        if (_paymentMethod == 'card') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PaymentScreen(amount: finalTotal),
+            ),
+          ).then((_) {
+            _postBookingCleanup();
+          });
+        } else {
+          // Якщо готівка, просто показуємо повідомлення про успіх
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Booking confirmed! Payment at the venue.'), backgroundColor: Colors.green)
+          );
+          _postBookingCleanup();
+        }
       }
     } else {
       if (mounted) {
         setState(() { _isSubmitting = false; });
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Помилка. Перевірте з'єднання."), backgroundColor: Colors.redAccent));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Error. Please check your connection."), backgroundColor: Colors.redAccent));
       }
     }
   }
@@ -408,7 +412,7 @@ class _BookingTabState extends State<BookingTab> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           iconTheme: IconThemeData(color: primaryGold),
-          title: Text('Бронювання', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold)),
+          title: Text('Booking', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold)),
           centerTitle: true,
         ),
         body: _buildGuestScreen(),
@@ -427,7 +431,7 @@ class _BookingTabState extends State<BookingTab> {
                   if (widget.isFromCart || widget.isFromLobby)
                     IconButton(icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white), onPressed: () => Navigator.pop(context)),
                   Text(
-                      widget.isFromLobby ? 'ОФОРМЛЕННЯ ЛОБІ' : (widget.isFromCart ? 'ОФОРМЛЕННЯ' : 'БРОНЮВАННЯ'),
+                      widget.isFromLobby ? 'LOBBY CHECKOUT' : (widget.isFromCart ? 'CHECKOUT' : 'BOOKING'),
                       style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.w900, letterSpacing: 2.0)
                   ),
                 ],
@@ -457,7 +461,7 @@ class _BookingTabState extends State<BookingTab> {
                         decoration: BoxDecoration(color: surfaceDark, borderRadius: BorderRadius.circular(16), border: Border.all(color: primaryGold.withOpacity(0.3))),
                         child: Column(
                           children: [
-                            Text('ДАТА ВІЗИТУ', style: TextStyle(color: primaryGold, fontSize: 12, fontWeight: FontWeight.bold)),
+                            Text('VISIT DATE', style: TextStyle(color: primaryGold, fontSize: 12, fontWeight: FontWeight.bold)),
                             const SizedBox(height: 4),
                             Text(DateFormat('dd.MM.yyyy').format(_selectedDate), style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                           ],
@@ -466,9 +470,9 @@ class _BookingTabState extends State<BookingTab> {
                     ),
                     const SizedBox(height: 24),
 
-                    const Text('СХЕМА РЕСТОРАНУ', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 1.5)),
+                    const Text('RESTAURANT MAP', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, letterSpacing: 1.5)),
                     const SizedBox(height: 8),
-                    const Text('Натисніть на стіл для вибору. Червоний контур — стіл частково або повністю зайнятий.', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                    const Text('Tap a table to select. Red outline means the table is partially or fully reserved.', style: TextStyle(color: Colors.white54, fontSize: 12)),
                     const SizedBox(height: 16),
                     Container(
                       height: 450, width: double.infinity,
@@ -480,8 +484,8 @@ class _BookingTabState extends State<BookingTab> {
                             return Stack(
                               children: [
                                 Positioned(top: 0, left: 0, width: constraints.maxWidth * 0.65, height: constraints.maxHeight * 0.75, child: Container(decoration: BoxDecoration(border: const Border(right: BorderSide(color: Colors.white10, width: 2), bottom: BorderSide(color: Colors.white10, width: 2)), color: primaryGold.withOpacity(0.02)))),
-                                Positioned(top: 20, left: 20, child: Text('СЦЕНА', style: TextStyle(color: primaryGold.withOpacity(0.5), fontWeight: FontWeight.bold))),
-                                Positioned(bottom: 100, right: 120, child: Text('ЗАЛ', style: TextStyle(color: primaryGold.withOpacity(0.15), fontSize: 30, fontWeight: FontWeight.bold))),
+                                Positioned(top: 20, left: 20, child: Text('STAGE', style: TextStyle(color: primaryGold.withOpacity(0.5), fontWeight: FontWeight.bold))),
+                                Positioned(bottom: 100, right: 120, child: Text('HALL', style: TextStyle(color: primaryGold.withOpacity(0.15), fontSize: 30, fontWeight: FontWeight.bold))),
                                 ...tables.map((t) {
                                   bool isSelected = _selectedTableId == t.id;
 
@@ -514,7 +518,7 @@ class _BookingTabState extends State<BookingTab> {
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Text(
-                                                    t.isVip ? 'VIP ${t.num}' : '№${t.num}',
+                                                    t.isVip ? 'VIP #${t.num}' : '#${t.num}',
                                                     style: TextStyle(
                                                         color: isSelected ? Colors.black : Colors.white,
                                                         fontSize: 10,
@@ -566,9 +570,41 @@ class _BookingTabState extends State<BookingTab> {
 
                     TextField(
                       controller: _wishesController, style: const TextStyle(color: Colors.white), maxLines: 2,
-                      decoration: InputDecoration(hintText: 'Побажання (необов\'язково)', hintStyle: const TextStyle(color: Colors.white38), filled: true, fillColor: surfaceDark, border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none)),
+                      decoration: InputDecoration(hintText: 'Wishes (optional)', hintStyle: const TextStyle(color: Colors.white38), filled: true, fillColor: surfaceDark, border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none)),
                     ),
                     const SizedBox(height: 24),
+
+                    // --- Блок вибору методу оплати (залишили) ---
+                    const Text('Payment method:', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: surfaceDark,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.white24)
+                      ),
+                      child: Column(
+                        children: [
+                          RadioListTile<String>(
+                            title: const Text('By card online', style: TextStyle(color: Colors.white, fontSize: 14)),
+                            value: 'card',
+                            groupValue: _paymentMethod,
+                            activeColor: primaryGold,
+                            onChanged: (value) => setState(() => _paymentMethod = value!),
+                          ),
+                          RadioListTile<String>(
+                            title: const Text('Cash at the venue', style: TextStyle(color: Colors.white, fontSize: 14)),
+                            value: 'cash',
+                            groupValue: _paymentMethod,
+                            activeColor: primaryGold,
+                            onChanged: (value) => setState(() => _paymentMethod = value!),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // ----------------------------------------
+
                     SizedBox(
                       width: double.infinity, height: 60,
                       child: ElevatedButton(
@@ -577,7 +613,7 @@ class _BookingTabState extends State<BookingTab> {
                         child: _isSubmitting
                             ? const CircularProgressIndicator(color: Colors.black)
                             : Text(
-                            (widget.isFromCart || widget.isFromLobby) ? 'ПІДТВЕРДИТИ ЗАМОВЛЕННЯ' : 'ЗАБРОНЮВАТИ СТІЛ',
+                            (widget.isFromCart || widget.isFromLobby) ? 'CONFIRM ORDER' : 'RESERVE',
                             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.0)
                         ),
                       ),
@@ -613,9 +649,9 @@ class _BookingTabState extends State<BookingTab> {
                 children: [
                   Icon(Icons.lock_outline, color: primaryGold, size: 64),
                   const SizedBox(height: 16),
-                  Text('Потрібна авторизація', textAlign: TextAlign.center, style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
+                  Text('Authorization required', textAlign: TextAlign.center, style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
-                  const Text('Для доступу до бронювання столів, будь ласка, увійдіть в акаунт або зареєструйтесь.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 14)),
+                  const Text('To access table booking, please log in or register.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 14)),
                   const SizedBox(height: 32),
                   SizedBox(
                     width: double.infinity, height: 50,
@@ -640,7 +676,7 @@ class _BookingTabState extends State<BookingTab> {
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: primaryGold, foregroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-                      child: const Text('УВІЙТИ / ЗАРЕЄСТРУВАТИСЬ', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                      child: const Text('LOGIN / REGISTER', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
                     ),
                   ),
                 ],

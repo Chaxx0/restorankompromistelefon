@@ -33,215 +33,215 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
   final ScrollController _ingredientsScrollController = ScrollController();
 
   final Map<int, String> _allIngredients = {
-    1: "М'ясо", 2: "Курка", 3: "Свинина", 4: "Яловичина", 5: "Бекон",
-    6: "Сир", 7: "Моцарела", 8: "Пармезан", 9: "Гриби", 10: "Трюфель",
-    11: "Часник", 12: "Цибуля", 13: "Томати", 14: "Оливки", 15: "Базилік",
-    16: "Вершки", 17: "Риба", 18: "Лосось", 19: "Креветки", 20: "Морепродукти",
-    21: "Тісто", 22: "Шоколад", 23: "Ягоди", 24: "Мед", 25: "Горіхи",
-    26: "Авокадо", 27: "Фета", 28: "Гострий перець", 29: "Ананас", 30: "Картопля"
+    1: "Meat", 2: "Chicken", 3: "Pork", 4: "Beef", 5: "Bacon",
+    6: "Cheese", 7: "Mozzarella", 8: "Parmesan", 9: "Mushrooms", 10: "Truffle",
+    11: "Garlic", 12: "Onion", 13: "Tomatoes", 14: "Olives", 15: "Basil",
+    16: "Cream", 17: "Fish", 18: "Salmon", 19: "Shrimp", 20: "Seafood",
+    21: "Dough", 22: "Chocolate", 23: "Berries", 24: "Honey", 25: "Nuts",
+    26: "Avocado", 27: "Feta", 28: "Hot pepper", 29: "Pineapple", 30: "Potato"
   };
   Set<int> _selectedDisliked = {};
-  // Локальна база тегів (зв'язок: ID страви -> теги)
+
+  // Local tags database (relation: Dish ID -> tags)
   final Map<int, Map<String, List<String>>> _dishTags = {
+    1: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Meat", "Chicken", "Cheese", "Mozzarella", "Berries"]},
+    2: {'tastes': ['Vegetarian', 'Savory', 'Hearty', 'Piquant'], 'ings': ["Cheese", "Nuts"]},
+    3: {'tastes': ['Savory', 'Hearty', 'Mushroom', 'Piquant'], 'ings': ["Cheese", "Parmesan", "Mushrooms", "Truffle"]},
+    4: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Meat"]},
+    5: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Meat", "Seafood", "Avocado"]},
+    6: {'tastes': ['Savory', 'Hearty', 'Mushroom', 'Piquant'], 'ings': ["Meat", "Mushrooms", "Truffle"]},
+    7: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Meat", "Beef"]},
+    8: {'tastes': ['Savory', 'Hearty', 'Mushroom', 'Piquant'], 'ings': ["Meat", "Beef", "Cheese", "Mushrooms", "Truffle"]},
+    9: {'tastes': ['Savory', 'Cold', 'Hearty', 'Piquant'], 'ings': ["Fish", "Salmon", "Avocado"]},
+    10: {'tastes': ['Savory', 'Hearty', 'Mushroom', 'Piquant'], 'ings': ["Mushrooms", "Truffle", "Cream"]},
+    11: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Meat", "Seafood", "Dough", "Avocado"]},
+    12: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Seafood"]},
+    13: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Cheese"]},
+    14: {'tastes': ['Savory', 'Hearty', 'Mushroom', 'Piquant'], 'ings': ["Mushrooms", "Truffle", "Chocolate"]},
+    15: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Cream", "Berries"]},
+    16: {'tastes': ['Vegetarian', 'Savory', 'Hearty', 'Piquant'], 'ings': ["Meat", "Beef", "Cheese"]},
+    17: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': []},
+    18: {'tastes': ['Savory', 'Cold', 'Hearty', 'Piquant'], 'ings': ["Meat", "Pork"]},
+    19: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Cheese"]},
+    20: {'tastes': ['Savory', 'Hearty', 'Piquant'], 'ings': ["Meat", "Fish", "Salmon"]},
 
-    1: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["М'ясо", "Курка", "Сир", "Моцарела", "Ягоди"]},
-    2: {'tastes': ['Вегетаріанське', 'Пряне', 'Ситне', 'Пікантне'], 'ings': ["Сир", "Горіхи"]},
-    3: {'tastes': ['Пряне', 'Ситне', 'Грибне', 'Пікантне'], 'ings': ["Сир", "Пармезан", "Гриби", "Трюфель"]},
-    4: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["М'ясо"]},
-    5: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["М'ясо", "Морепродукти", "Авокадо"]},
-    6: {'tastes': ['Пряне', 'Ситне', 'Грибне', 'Пікантне'], 'ings': ["М'ясо", "Гриби", "Трюфель"]},
-    7: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["М'ясо", "Яловичина"]},
-    8: {'tastes': ['Пряне', 'Ситне', 'Грибне', 'Пікантне'], 'ings': ["М'ясо", "Яловичина", "Сир", "Гриби", "Трюфель"]},
-    9: {'tastes': ['Пряне', 'Холодне', 'Ситне', 'Пікантне'], 'ings': ["Риба", "Лосось", "Авокадо"]},
-    10: {'tastes': ['Пряне', 'Ситне', 'Грибне', 'Пікантне'], 'ings': ["Гриби", "Трюфель", "Вершки"]},
-    11: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["М'ясо", "Морепродукти", "Тісто", "Авокадо"]},
-    12: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["Морепродукти"]},
-    13: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["Сир"]},
-    14: {'tastes': ['Пряне', 'Ситне', 'Грибне', 'Пікантне'], 'ings': ["Гриби", "Трюфель", "Шоколад"]},
-    15: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["Вершки", "Ягоди"]},
-    16: {'tastes': ['Вегетаріанське', 'Пряне', 'Ситне', 'Пікантне'], 'ings': ["М'ясо", "Яловичина", "Сир"]},
-    17: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': []},
-    18: {'tastes': ['Пряне', 'Холодне', 'Ситне', 'Пікантне'], 'ings': ["М'ясо", "Свинина"]},
-    19: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["Сир"]},
-    20: {'tastes': ['Пряне', 'Ситне', 'Пікантне'], 'ings': ["М'ясо", "Риба", "Лосось"]},
+    // 21-40 (Pizza)
+    21: {'tastes': ['Spicy', 'Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Mozzarella", "Tomatoes", "Dough", "Hot pepper"]},
+    22: {'tastes': ['Hearty', 'Mushroom', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Mushrooms", "Fish", "Dough"]},
+    23: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Chicken", "Cheese", "Dough", "Pineapple"]},
+    24: {'tastes': ['Vegetarian', 'Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Onion", "Dough", "Feta", "Hot pepper"]},
+    25: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Meat", "Pork", "Bacon", "Cheese", "Dough"]},
+    26: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Tomatoes", "Dough"]},
+    27: {'tastes': ['Vegetarian', 'Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Mozzarella", "Basil", "Dough"]},
+    28: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Tomatoes", "Olives", "Dough", "Feta"]},
+    29: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Dough"]},
+    30: {'tastes': ['Hearty', 'Mushroom', 'Crispy', 'Piquant'], 'ings': ["Meat", "Pork", "Bacon", "Cheese", "Mushrooms", "Cream", "Fish", "Dough"]},
+    31: {'tastes': ['Spicy', 'Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Dough", "Hot pepper"]},
+    32: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Olives", "Dough"]},
+    33: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Onion", "Olives", "Fish", "Dough"]},
+    34: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Chicken", "Cheese", "Onion", "Dough"]},
+    35: {'tastes': ['Vegetarian', 'Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Cream", "Dough"]},
+    36: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Cream", "Fish", "Salmon", "Dough"]},
+    37: {'tastes': ['Hearty', 'Mushroom', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Mushrooms", "Tomatoes", "Fish", "Dough"]},
+    38: {'tastes': ['Hearty', 'Mushroom', 'Crispy', 'Piquant'], 'ings': ["Chicken", "Cheese", "Mushrooms", "Cream", "Fish", "Dough"]},
+    39: {'tastes': ['Vegetarian', 'Hearty', 'Crispy', 'Piquant'], 'ings': ["Cheese", "Dough", "Feta"]},
+    40: {'tastes': ['Hearty', 'Crispy', 'Piquant'], 'ings': ["Meat", "Pork", "Bacon", "Cheese", "Onion", "Dough"]},
 
-    // 21-40 (Піца)
-    21: {'tastes': ['Гостре', 'Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Моцарела", "Томати", "Тісто", "Гострий перець"]},
-    22: {'tastes': ['Ситне', 'Грибне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Гриби", "Риба", "Тісто"]},
-    23: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Курка", "Сир", "Тісто", "Ананас"]},
-    24: {'tastes': ['Вегетаріанське', 'Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Цибуля", "Тісто", "Фета", "Гострий перець"]},
-    25: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["М'ясо", "Свинина", "Бекон", "Сир", "Тісто"]},
-    26: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Томати", "Тісто"]},
-    27: {'tastes': ['Вегетаріанське', 'Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Моцарела", "Базилік", "Тісто"]},
-    28: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Томати", "Оливки", "Тісто", "Фета"]},
-    29: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Тісто"]},
-    30: {'tastes': ['Ситне', 'Грибне', 'Хрустке', 'Пікантне'], 'ings': ["М'ясо", "Свинина", "Бекон", "Сир", "Гриби", "Вершки", "Риба", "Тісто"]},
-    31: {'tastes': ['Гостре', 'Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Тісто", "Гострий перець"]},
-    32: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Оливки", "Тісто"]},
-    33: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Цибуля", "Оливки", "Риба", "Тісто"]},
-    34: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Курка", "Сир", "Цибуля", "Тісто"]},
-    35: {'tastes': ['Вегетаріанське', 'Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Вершки", "Тісто"]},
-    36: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Вершки", "Риба", "Лосось", "Тісто"]},
-    37: {'tastes': ['Ситне', 'Грибне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Гриби", "Томати", "Риба", "Тісто"]},
-    38: {'tastes': ['Ситне', 'Грибне', 'Хрустке', 'Пікантне'], 'ings': ["Курка", "Сир", "Гриби", "Вершки", "Риба", "Тісто"]},
-    39: {'tastes': ['Вегетаріанське', 'Ситне', 'Хрустке', 'Пікантне'], 'ings': ["Сир", "Тісто", "Фета"]},
-    40: {'tastes': ['Ситне', 'Хрустке', 'Пікантне'], 'ings': ["М'ясо", "Свинина", "Бекон", "Сир", "Цибуля", "Тісто"]},
+    // 41-60 (Meat Dishes)
+    41: {'tastes': ['Spicy', 'Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Beef"]},
+    42: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Pork"]},
+    43: {'tastes': ['Spicy', 'Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Chicken"]},
+    44: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Beef"]},
+    45: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Pork"]},
+    46: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Chicken", "Onion", "Cream"]},
+    47: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Garlic"]},
+    48: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Beef"]},
+    49: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Chicken"]},
+    50: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Pork", "Cheese"]},
+    51: {'tastes': ['Vegetarian', 'Savory', 'Hearty', 'Smoky', 'Mushroom'], 'ings': ["Meat", "Beef", "Mushrooms", "Fish"]},
+    52: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Chicken", "Garlic", "Cream"]},
+    53: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Honey"]},
+    54: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Beef"]},
+    55: {'tastes': ['Spicy', 'Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Chicken", "Hot pepper"]},
+    56: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Beef"]},
+    57: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Pork"]},
+    58: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Chicken"]},
+    59: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat", "Beef"]},
+    60: {'tastes': ['Savory', 'Hearty', 'Smoky'], 'ings': ["Meat"]},
 
-    // 41-60 (М'ясні страви)
-    41: {'tastes': ['Гостре', 'Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Яловичина"]},
-    42: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Свинина"]},
-    43: {'tastes': ['Гостре', 'Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Курка"]},
-    44: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Яловичина"]},
-    45: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Свинина"]},
-    46: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Курка", "Цибуля", "Вершки"]},
-    47: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Часник"]},
-    48: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Яловичина"]},
-    49: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Курка"]},
-    50: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Свинина", "Сир"]},
-    51: {'tastes': ['Вегетаріанське', 'Пряне', 'Ситне', 'Димне', 'Грибне'], 'ings': ["М'ясо", "Яловичина", "Гриби", "Риба"]},
-    52: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Курка", "Часник", "Вершки"]},
-    53: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Мед"]},
-    54: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Яловичина"]},
-    55: {'tastes': ['Гостре', 'Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Курка", "Гострий перець"]},
-    56: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Яловичина"]},
-    57: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Свинина"]},
-    58: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Курка"]},
-    59: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо", "Яловичина"]},
-    60: {'tastes': ['Пряне', 'Ситне', 'Димне'], 'ings': ["М'ясо"]},
+    // 61-80 (Salads)
+    61: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Fish", "Potato"]},
+    62: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Seafood"]},
+    63: {'tastes': ['Vegetarian', 'Cold', 'Light', 'Dietary'], 'ings': ["Cheese"]},
+    64: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Seafood"]},
+    65: {'tastes': ['Cold', 'Light', 'Mushroom', 'Dietary'], 'ings': ["Mushrooms", "Onion", "Fish"]},
+    66: {'tastes': ['Cold', 'Hearty', 'Light', 'Dietary'], 'ings': ["Meat", "Beef"]},
+    67: {'tastes': ['Cold', 'Hearty', 'Light', 'Dietary'], 'ings': ["Chicken", "Cheese", "Pineapple"]},
+    68: {'tastes': ['Cold', 'Hearty', 'Light', 'Dietary'], 'ings': ["Meat", "Pork", "Bacon"]},
+    69: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Cheese", "Mozzarella", "Tomatoes"]},
+    70: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Cheese", "Parmesan"]},
+    71: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Fish"]},
+    72: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Cheese", "Olives", "Feta"]},
+    73: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Shrimp", "Seafood", "Avocado"]},
+    74: {'tastes': ['Vegetarian', 'Cold', 'Light', 'Dietary'], 'ings': ["Cheese", "Feta"]},
+    75: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Fish", "Salmon"]},
+    76: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Chicken", "Berries", "Nuts"]},
+    77: {'tastes': ['Vegetarian', 'Cold', 'Light', 'Dietary'], 'ings': []},
+    78: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': []},
+    79: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Cheese", "Nuts", "Feta"]},
+    80: {'tastes': ['Cold', 'Light', 'Dietary'], 'ings': ["Seafood"]},
 
-    // 61-80 (Салати)
-    61: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Риба", "Картопля"]},
-    62: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Морепродукти"]},
-    63: {'tastes': ['Вегетаріанське', 'Холодне', 'Легке', 'Дієтичне'], 'ings': ["Сир"]},
-    64: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Морепродукти"]},
-    65: {'tastes': ['Холодне', 'Легке', 'Грибне', 'Дієтичне'], 'ings': ["Гриби", "Цибуля", "Риба"]},
-    66: {'tastes': ['Холодне', 'Ситне', 'Легке', 'Дієтичне'], 'ings': ["М'ясо", "Яловичина"]},
-    67: {'tastes': ['Холодне', 'Ситне', 'Легке', 'Дієтичне'], 'ings': ["Курка", "Сир", "Ананас"]},
-    68: {'tastes': ['Холодне', 'Ситне', 'Легке', 'Дієтичне'], 'ings': ["М'ясо", "Свинина", "Бекон"]},
-    69: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Сир", "Моцарела", "Томати"]},
-    70: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Сир", "Пармезан"]},
-    71: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Риба"]},
-    72: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Сир", "Оливки", "Фета"]},
-    73: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Креветки", "Морепродукти", "Авокадо"]},
-    74: {'tastes': ['Вегетаріанське', 'Холодне', 'Легке', 'Дієтичне'], 'ings': ["Сир", "Фета"]},
-    75: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Риба", "Лосось"]},
-    76: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Курка", "Ягоди", "Горіхи"]},
-    77: {'tastes': ['Вегетаріанське', 'Холодне', 'Легке', 'Дієтичне'], 'ings': []},
-    78: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': []},
-    79: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Сир", "Горіхи", "Фета"]},
-    80: {'tastes': ['Холодне', 'Легке', 'Дієтичне'], 'ings': ["Морепродукти"]},
+    // 81-90 (Soups)
+    81: {'tastes': ['Vegetarian', 'Savory', 'Hearty', 'Creamy'], 'ings': ["Cream"]},
+    82: {'tastes': ['Savory', 'Hearty', 'Creamy'], 'ings': []},
+    83: {'tastes': ['Savory', 'Hearty', 'Creamy'], 'ings': ["Chicken"]},
+    84: {'tastes': ['Vegetarian', 'Savory', 'Hearty', 'Creamy', 'Mushroom'], 'ings': ["Mushrooms", "Fish", "Potato"]},
+    85: {'tastes': ['Vegetarian', 'Savory', 'Hearty', 'Creamy'], 'ings': ["Tomatoes", "Basil"]},
+    86: {'tastes': ['Savory', 'Hearty', 'Creamy'], 'ings': ["Cream", "Fish", "Salmon"]},
+    87: {'tastes': ['Savory', 'Hearty', 'Creamy'], 'ings': ["Cheese", "Parmesan"]},
+    88: {'tastes': ['Savory', 'Hearty', 'Creamy'], 'ings': ["Chicken"]},
+    89: {'tastes': ['Savory', 'Hearty', 'Creamy'], 'ings': ["Cream", "Nuts"]},
+    90: {'tastes': ['Vegetarian', 'Savory', 'Hearty', 'Creamy'], 'ings': ["Cheese", "Cream"]},
 
-    // 81-90 (Супи)
-    81: {'tastes': ['Вегетаріанське', 'Пряне', 'Ситне', 'Вершкове'], 'ings': ["Вершки"]},
-    82: {'tastes': ['Пряне', 'Ситне', 'Вершкове'], 'ings': []},
-    83: {'tastes': ['Пряне', 'Ситне', 'Вершкове'], 'ings': ["Курка"]},
-    84: {'tastes': ['Вегетаріанське', 'Пряне', 'Ситне', 'Вершкове', 'Грибне'], 'ings': ["Гриби", "Риба", "Картопля"]},
-    85: {'tastes': ['Вегетаріанське', 'Пряне', 'Ситне', 'Вершкове'], 'ings': ["Томати", "Базилік"]},
-    86: {'tastes': ['Пряне', 'Ситне', 'Вершкове'], 'ings': ["Вершки", "Риба", "Лосось"]},
-    87: {'tastes': ['Пряне', 'Ситне', 'Вершкове'], 'ings': ["Сир", "Пармезан"]},
-    88: {'tastes': ['Пряне', 'Ситне', 'Вершкове'], 'ings': ["Курка"]},
-    89: {'tastes': ['Пряне', 'Ситне', 'Вершкове'], 'ings': ["Вершки", "Горіхи"]},
-    90: {'tastes': ['Вегетаріанське', 'Пряне', 'Ситне', 'Вершкове'], 'ings': ["Сир", "Вершки"]},
+    // 91-100 (Burgers)
+    91: {'tastes': ['Hearty', 'Smoky', 'Crispy'], 'ings': ["Meat", "Beef", "Tomatoes", "Dough"]},
+    92: {'tastes': ['Hearty', 'Smoky', 'Crispy'], 'ings': ["Meat", "Chicken", "Cheese", "Dough"]},
+    93: {'tastes': ['Hearty', 'Smoky', 'Crispy'], 'ings': ["Meat", "Pork", "Bacon", "Dough"]},
+    94: {'tastes': ['Hearty', 'Smoky', 'Mushroom', 'Crispy'], 'ings': ["Meat", "Mushrooms", "Fish", "Dough"]},
+    95: {'tastes': ['Vegetarian', 'Hearty', 'Smoky', 'Crispy'], 'ings': ["Meat", "Cheese", "Dough"]},
+    96: {'tastes': ['Hearty', 'Smoky', 'Crispy'], 'ings': ["Meat", "Fish", "Salmon", "Dough"]},
+    97: {'tastes': ['Hearty', 'Smoky', 'Crispy'], 'ings': ["Meat", "Dough"]},
+    98: {'tastes': ['Vegetarian', 'Hearty', 'Smoky', 'Crispy'], 'ings': ["Meat", "Dough", "Avocado"]},
+    99: {'tastes': ['Hearty', 'Smoky', 'Crispy'], 'ings': ["Meat", "Pork", "Bacon", "Dough"]},
+    100: {'tastes': ['Hearty', 'Smoky', 'Crispy'], 'ings': ["Meat", "Chicken", "Dough"]},
 
-    // 91-100 (Бургери)
-    91: {'tastes': ['Ситне', 'Димне', 'Хрустке'], 'ings': ["М'ясо", "Яловичина", "Томати", "Тісто"]},
-    92: {'tastes': ['Ситне', 'Димне', 'Хрустке'], 'ings': ["М'ясо", "Курка", "Сир", "Тісто"]},
-    93: {'tastes': ['Ситне', 'Димне', 'Хрустке'], 'ings': ["М'ясо", "Свинина", "Бекон", "Тісто"]},
-    94: {'tastes': ['Ситне', 'Димне', 'Грибне', 'Хрустке'], 'ings': ["М'ясо", "Гриби", "Риба", "Тісто"]},
-    95: {'tastes': ['Вегетаріанське', 'Ситне', 'Димне', 'Хрустке'], 'ings': ["М'ясо", "Сир", "Тісто"]},
-    96: {'tastes': ['Ситне', 'Димне', 'Хрустке'], 'ings': ["М'ясо", "Риба", "Лосось", "Тісто"]},
-    97: {'tastes': ['Ситне', 'Димне', 'Хрустке'], 'ings': ["М'ясо", "Тісто"]},
-    98: {'tastes': ['Вегетаріанське', 'Ситне', 'Димне', 'Хрустке'], 'ings': ["М'ясо", "Тісто", "Авокадо"]},
-    99: {'tastes': ['Ситне', 'Димне', 'Хрустке'], 'ings': ["М'ясо", "Свинина", "Бекон", "Тісто"]},
-    100: {'tastes': ['Ситне', 'Димне', 'Хрустке'], 'ings': ["М'ясо", "Курка", "Тісто"]},
+    // 101-110 (Pasta)
+    101: {'tastes': ['Hearty', 'Creamy', 'Piquant'], 'ings': ["Tomatoes", "Dough"]},
+    102: {'tastes': ['Hearty', 'Creamy', 'Piquant'], 'ings': ["Cheese", "Mushrooms", "Cream", "Fish", "Dough", "Feta"]},
+    103: {'tastes': ['Spicy', 'Hearty', 'Creamy', 'Piquant'], 'ings': ["Tomatoes", "Dough", "Hot pepper"]},
+    104: {'tastes': ['Hearty', 'Creamy', 'Piquant'], 'ings': ["Shrimp", "Seafood", "Dough"]},
+    105: {'tastes': ['Hearty', 'Creamy', 'Piquant'], 'ings': ["Meat", "Pork", "Bacon", "Dough"]},
+    106: {'tastes': ['Hearty', 'Creamy', 'Piquant'], 'ings': ["Cream", "Fish", "Salmon", "Dough"]},
+    107: {'tastes': ['Hearty', 'Creamy', 'Piquant'], 'ings': ["Chicken", "Basil", "Dough"]},
+    108: {'tastes': ['Hearty', 'Creamy', 'Mushroom', 'Piquant'], 'ings': ["Mushrooms", "Cream", "Fish", "Dough"]},
+    109: {'tastes': ['Hearty', 'Creamy', 'Piquant'], 'ings': ["Tomatoes", "Basil", "Dough"]},
+    110: {'tastes': ['Hearty', 'Creamy', 'Piquant'], 'ings': ["Cheese", "Mozzarella", "Tomatoes", "Dough"]},
 
-    // 101-110 (Паста)
-    101: {'tastes': ['Ситне', 'Вершкове', 'Пікантне'], 'ings': ["Томати", "Тісто"]},
-    102: {'tastes': ['Ситне', 'Вершкове', 'Пікантне'], 'ings': ["Сир", "Гриби", "Вершки", "Риба", "Тісто", "Фета"]},
-    103: {'tastes': ['Гостре', 'Ситне', 'Вершкове', 'Пікантне'], 'ings': ["Томати", "Тісто", "Гострий перець"]},
-    104: {'tastes': ['Ситне', 'Вершкове', 'Пікантне'], 'ings': ["Креветки", "Морепродукти", "Тісто"]},
-    105: {'tastes': ['Ситне', 'Вершкове', 'Пікантне'], 'ings': ["М'ясо", "Свинина", "Бекон", "Тісто"]},
-    106: {'tastes': ['Ситне', 'Вершкове', 'Пікантне'], 'ings': ["Вершки", "Риба", "Лосось", "Тісто"]},
-    107: {'tastes': ['Ситне', 'Вершкове', 'Пікантне'], 'ings': ["Курка", "Базилік", "Тісто"]},
-    108: {'tastes': ['Ситне', 'Вершкове', 'Грибне', 'Пікантне'], 'ings': ["Гриби", "Вершки", "Риба", "Тісто"]},
-    109: {'tastes': ['Ситне', 'Вершкове', 'Пікантне'], 'ings': ["Томати", "Базилік", "Тісто"]},
-    110: {'tastes': ['Ситне', 'Вершкове', 'Пікантне'], 'ings': ["Сир", "Моцарела", "Томати", "Тісто"]},
+    // 111-120 (Desserts)
+    111: {'tastes': ['Cold', 'Sweet', 'Light', 'Fruity'], 'ings': ["Cheese", "Cream"]},
+    112: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese", "Dough"]},
+    113: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese", "Cream", "Dough"]},
+    114: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese"]},
+    115: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese", "Berries"]},
+    116: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese"]},
+    117: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese"]},
+    118: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese", "Berries"]},
+    119: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese", "Chocolate"]},
+    120: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese", "Honey"]},
 
-    // 111-120 (Десерти)
-    111: {'tastes': ['Холодне', 'Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир", "Вершки"]},
-    112: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир", "Тісто"]},
-    113: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир", "Вершки", "Тісто"]},
-    114: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир"]},
-    115: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир", "Ягоди"]},
-    116: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир"]},
-    117: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир"]},
-    118: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир", "Ягоди"]},
-    119: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир", "Шоколад"]},
-    120: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир", "Мед"]},
+    // 121-130 (Non-alcoholic drinks)
+    121: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': []},
+    122: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': []},
+    123: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cheese"]},
+    124: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Berries"]},
+    125: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': []},
+    126: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': []},
+    127: {'tastes': ['Cold', 'Sweet', 'Light', 'Fruity'], 'ings': []},
+    128: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': []},
+    129: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': []},
+    130: {'tastes': ['Sweet', 'Light', 'Fruity'], 'ings': ["Cream", "Chocolate"]},
 
-    // 121-130 (Безалкогольні напої)
-    121: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': []},
-    122: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': []},
-    123: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Сир"]}, // Той самий баг сайту з сиропом
-    124: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Ягоди"]},
-    125: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': []},
-    126: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': []},
-    127: {'tastes': ['Холодне', 'Солодке', 'Легке', 'Фруктове'], 'ings': []},
-    128: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': []},
-    129: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': []},
-    130: {'tastes': ['Солодке', 'Легке', 'Фруктове'], 'ings': ["Вершки", "Шоколад"]},
-
-    // 131-180 (Пиво, Вино, Алкоголь, Коктейлі)
-    131: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    132: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    133: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    134: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    135: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    136: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    137: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Ягоди"]},
-    138: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    139: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    140: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    141: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    142: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    143: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Ягоди"]},
-    144: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    145: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    146: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    147: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    148: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    149: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    150: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    151: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    152: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    153: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    154: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    155: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    156: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    157: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    158: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    159: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    160: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    161: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    162: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    163: {'tastes': ['Гостре', 'Холодне', 'Легке', 'Пікантне'], 'ings': ["Томати"]},
-    164: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Ягоди"]},
-    165: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    166: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Сир", "Ягоди"]},
-    167: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Ананас"]},
-    168: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    169: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    170: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Вершки"]},
-    171: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    172: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    173: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    174: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': []},
-    175: {'tastes': ['Гостре', 'Холодне', 'Легке', 'Пікантне'], 'ings': ["Томати"]},
-    176: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Ягоди"]},
-    177: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Ягоди"]},
-    178: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Вершки"]},
-    179: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Оливки"]},
-    180: {'tastes': ['Холодне', 'Легке', 'Пікантне'], 'ings': ["Ягоди"]},
+    // 131-180 (Beer, Wine, Alcohol, Cocktails)
+    131: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    132: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    133: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    134: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    135: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    136: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    137: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Berries"]},
+    138: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    139: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    140: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    141: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    142: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    143: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Berries"]},
+    144: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    145: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    146: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    147: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    148: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    149: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    150: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    151: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    152: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    153: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    154: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    155: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    156: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    157: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    158: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    159: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    160: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    161: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    162: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    163: {'tastes': ['Spicy', 'Cold', 'Light', 'Piquant'], 'ings': ["Tomatoes"]},
+    164: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Berries"]},
+    165: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    166: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Cheese", "Berries"]},
+    167: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Pineapple"]},
+    168: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    169: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    170: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Cream"]},
+    171: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    172: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    173: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    174: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': []},
+    175: {'tastes': ['Spicy', 'Cold', 'Light', 'Piquant'], 'ings': ["Tomatoes"]},
+    176: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Berries"]},
+    177: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Berries"]},
+    178: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Cream"]},
+    179: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Olives"]},
+    180: {'tastes': ['Cold', 'Light', 'Piquant'], 'ings': ["Berries"]},
   };
 
   @override
@@ -281,10 +281,10 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
         _currentLobbyCode = result['code'];
         await _loadInitialData();
       } else {
-        _showError('Помилка сервера. Спробуйте ще раз.');
+        _showError('Server error. Please try again.');
       }
     } else {
-      _showError('Будь ласка, увійдіть в акаунт.');
+      _showError('Please log in.');
     }
     setState(() { _isLoading = false; });
   }
@@ -302,10 +302,10 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
         _currentLobbyCode = code;
         await _loadInitialData();
       } else {
-        _showError('Лобі не знайдено або помилка входу.');
+        _showError('Lobby not found or login error.');
       }
     } else {
-      _showError('Будь ласка, увійдіть в акаунт.');
+      _showError('Please log in.');
     }
     setState(() { _isLoading = false; });
   }
@@ -376,7 +376,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
       appBar: AppBar(
         backgroundColor: Colors.black,
         iconTheme: IconThemeData(color: primaryGold),
-        title: Text('Компроміс', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold)),
+        title: Text('Kompromis', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
           if (_currentLobbyCode != null && _isLoggedIn)
@@ -389,9 +389,9 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
           labelColor: primaryGold,
           unselectedLabelColor: Colors.white54,
           tabs: const [
-            Tab(icon: Icon(Icons.info_outline), text: 'Статус'),
-            Tab(icon: Icon(Icons.restaurant_menu), text: 'Меню'),
-            Tab(icon: Icon(Icons.shopping_cart), text: 'Кошик'),
+            Tab(icon: Icon(Icons.info_outline), text: 'Status'),
+            Tab(icon: Icon(Icons.restaurant_menu), text: 'Menu'),
+            Tab(icon: Icon(Icons.shopping_cart), text: 'Cart'),
           ],
         )
             : null,
@@ -449,9 +449,9 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                 children: [
                   Icon(Icons.lock_outline, color: primaryGold, size: 64),
                   const SizedBox(height: 16),
-                  Text('Потрібна авторизація', textAlign: TextAlign.center, style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
+                  Text('Authorization required', textAlign: TextAlign.center, style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
-                  const Text('Для доступу до Спільного Лоббі, будь ласка, увійдіть в акаунт або зареєструйтесь.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 14)),
+                  const Text('To access the Shared Lobby, please log in or register.', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 14)),
                   const SizedBox(height: 32),
                   SizedBox(
                     width: double.infinity, height: 50,
@@ -476,7 +476,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: primaryGold, foregroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
-                      child: const Text('УВІЙТИ / ЗАРЕЄСТРУВАТИСЬ', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                      child: const Text('LOG IN / REGISTER', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
                     ),
                   ),
                 ],
@@ -504,15 +504,15 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                 children: [
                   Icon(Icons.group_add, color: primaryGold, size: 64),
                   const SizedBox(height: 16),
-                  const Text('Спільне замовлення', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+                  const Text('Shared Order', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
-                  const Text('Об\'єднайте бюджети та обирайте страви разом із друзями!', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 14)),
+                  const Text('Combine budgets and choose dishes together with friends!', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 14)),
                   const SizedBox(height: 32),
-                  SizedBox(width: double.infinity, height: 50, child: ElevatedButton(onPressed: _createLobby, style: ElevatedButton.styleFrom(backgroundColor: primaryGold, foregroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))), child: const Text('СТВОРИТИ НОВЕ ЛОБІ', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)))),
-                  const Padding(padding: EdgeInsets.symmetric(vertical: 20), child: Text('АБО', style: TextStyle(color: Colors.white38, fontWeight: FontWeight.bold))),
-                  TextField(controller: _joinCodeController, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 20, letterSpacing: 5.0, fontWeight: FontWeight.bold), textCapitalization: TextCapitalization.characters, decoration: InputDecoration(hintText: 'КОД ЛОБІ', filled: true, fillColor: Colors.black.withOpacity(0.5), border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none))),
+                  SizedBox(width: double.infinity, height: 50, child: ElevatedButton(onPressed: _createLobby, style: ElevatedButton.styleFrom(backgroundColor: primaryGold, foregroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))), child: const Text('CREATE NEW LOBBY', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)))),
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 20), child: Text('OR', style: TextStyle(color: Colors.white38, fontWeight: FontWeight.bold))),
+                  TextField(controller: _joinCodeController, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 20, letterSpacing: 5.0, fontWeight: FontWeight.bold), textCapitalization: TextCapitalization.characters, decoration: InputDecoration(hintText: 'LOBBY CODE', filled: true, fillColor: Colors.black.withOpacity(0.5), border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none))),
                   const SizedBox(height: 16),
-                  SizedBox(width: double.infinity, height: 50, child: OutlinedButton(onPressed: _joinLobby, style: OutlinedButton.styleFrom(foregroundColor: primaryGold, side: BorderSide(color: primaryGold, width: 1.5), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))), child: const Text('ПРИЄДНАТИСЯ', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)))),
+                  SizedBox(width: double.infinity, height: 50, child: OutlinedButton(onPressed: _joinLobby, style: OutlinedButton.styleFrom(foregroundColor: primaryGold, side: BorderSide(color: primaryGold, width: 1.5), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))), child: const Text('JOIN', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)))),
                 ],
               ),
             ),
@@ -529,7 +529,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
         children: [
           const Icon(Icons.wifi_off, color: Colors.redAccent, size: 64),
           const SizedBox(height: 16),
-          const Text('Втрачено зв\'язок з лобі', style: TextStyle(color: Colors.white, fontSize: 18)),
+          const Text('Lost connection to the lobby', style: TextStyle(color: Colors.white, fontSize: 18)),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
@@ -537,7 +537,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
               _loadInitialData().then((_) => setState(() { _isLoading = false; }));
             },
             style: ElevatedButton.styleFrom(backgroundColor: primaryGold, foregroundColor: Colors.black),
-            child: const Text('ОНОВИТИ'),
+            child: const Text('REFRESH'),
           )
         ],
       ),
@@ -558,7 +558,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               decoration: BoxDecoration(color: primaryGold.withOpacity(0.2), borderRadius: BorderRadius.circular(30), border: Border.all(color: primaryGold)),
-              child: Text('Код лобі: $_currentLobbyCode', style: TextStyle(color: primaryGold, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 2.0)),
+              child: Text('Lobby code: $_currentLobbyCode', style: TextStyle(color: primaryGold, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 2.0)),
             ),
           ),
           const SizedBox(height: 24),
@@ -570,7 +570,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Загальний бюджет', style: TextStyle(color: Colors.white54, fontSize: 14)),
+                    const Text('Total budget', style: TextStyle(color: Colors.white54, fontSize: 14)),
                     const SizedBox(height: 4),
                     Text('$totalBudget ₴', style: TextStyle(color: primaryGold, fontSize: 28, fontWeight: FontWeight.bold)),
                   ],
@@ -579,14 +579,14 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                   onPressed: _showBudgetDialog,
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.white12, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                   icon: const Icon(Icons.edit, size: 16),
-                  label: const Text('Мій внесок'),
+                  label: const Text('My contribution'),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 20),
 
-          Text('Компанія (${members.length})', style: TextStyle(color: primaryGold, fontSize: 18, fontWeight: FontWeight.bold)),
+          Text('Company (${members.length})', style: TextStyle(color: primaryGold, fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           _buildGlassCard(
             child: Column(
@@ -598,7 +598,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                     Row(children: [
                       const Icon(Icons.person, color: Colors.white54),
                       const SizedBox(width: 12),
-                      Text(m['fullName'] ?? m['name'] ?? 'Гість', style: const TextStyle(color: Colors.white, fontSize: 16))
+                      Text(m['fullName'] ?? m['name'] ?? 'Guest', style: const TextStyle(color: Colors.white, fontSize: 16))
                     ]),
                     Text('${m['budget']} ₴', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold)),
                   ],
@@ -608,13 +608,13 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
           ),
           const SizedBox(height: 24),
 
-          Text('Налаштування: Я НЕ їм', style: TextStyle(color: primaryGold, fontSize: 18, fontWeight: FontWeight.bold)),
+          Text('Settings: I DO NOT eat', style: TextStyle(color: primaryGold, fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           _buildGlassCard(
             child: Column(
               children: [
                 if (disliked.isNotEmpty) ...[
-                  const Align(alignment: Alignment.centerLeft, child: Text('Група не їсть:', style: TextStyle(color: Colors.redAccent, fontSize: 14))),
+                  const Align(alignment: Alignment.centerLeft, child: Text('The group does not eat:', style: TextStyle(color: Colors.redAccent, fontSize: 14))),
                   const SizedBox(height: 8),
                   Wrap(
                     spacing: 8, runSpacing: 8,
@@ -627,7 +627,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                   const Divider(color: Colors.white24, height: 30),
                 ],
 
-                const Align(alignment: Alignment.centerLeft, child: Text('Ваші вподобання:', style: TextStyle(color: Colors.white54, fontSize: 14))),
+                const Align(alignment: Alignment.centerLeft, child: Text('Your preferences:', style: TextStyle(color: Colors.white54, fontSize: 14))),
                 const SizedBox(height: 10),
 
                 SizedBox(
@@ -680,12 +680,12 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                   child: ElevatedButton(
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Вподобання оновлено! Небажані страви приховано з меню.'), backgroundColor: Colors.green),
+                        const SnackBar(content: Text('Preferences updated! Unwanted dishes are hidden from the menu.'), backgroundColor: Colors.green),
                       );
                       _tabController.animateTo(1);
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: primaryGold, foregroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-                    child: const Text('ОНОВИТИ МЕНЮ', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text('UPDATE MENU', style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
@@ -697,32 +697,26 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
   }
 
   Widget _buildMenuTab() {
-    // 1. Отримуємо назви інгредієнтів, які ти відмітив галочками
     Set<String> dislikedNames = _selectedDisliked.map((id) => _allIngredients[id]!.toLowerCase()).toSet();
 
-    // 2. Додаємо сюди ж те, що не їсть група (якщо такі дані прийшли з сервера)
     List groupDisliked = _lobbyData?['dislikedIngredients'] ?? _lobbyData?['DislikedIngredients'] ?? [];
     for (var d in groupDisliked) {
       String dName = _extractName(d);
       if (dName.isNotEmpty) dislikedNames.add(dName.toLowerCase());
     }
 
-    // 3. Фільтруємо страви перед виведенням на екран
     List<dynamic> filteredMenu = _menuItems.where((item) {
-      // Пошук по введеному тексту
       String name = (item['name'] ?? item['Name'] ?? '').toLowerCase();
       if (_searchQuery.isNotEmpty && !name.contains(_searchQuery.toLowerCase())) {
         return false;
       }
 
-      // Беремо ID страви та шукаємо її склад у нашому новому локальному словнику
       int dishId = int.tryParse(item['id']?.toString() ?? item['Id']?.toString() ?? '0') ?? 0;
       var localTags = _dishTags[dishId];
 
       if (localTags != null) {
         List<String> dishIngs = localTags['ings'] ?? [];
         for (String ing in dishIngs) {
-          // Якщо страва містить інгредієнт, який ми не їмо — ховаємо її
           if (dislikedNames.contains(ing.toLowerCase())) {
             return false;
           }
@@ -751,7 +745,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                 });
               },
               decoration: InputDecoration(
-                hintText: 'Пошук страви...',
+                hintText: 'Search for a dish...',
                 hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
                 prefixIcon: const Icon(Icons.search, color: Colors.white54),
                 border: InputBorder.none,
@@ -769,7 +763,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
               children: [
                 const Icon(Icons.search_off, size: 60, color: Colors.white24),
                 const SizedBox(height: 16),
-                Text('За запитом нічого не знайдено', style: const TextStyle(color: Colors.white54)),
+                const Text('Nothing found for your request', style: TextStyle(color: Colors.white54)),
               ],
             ),
           )
@@ -779,7 +773,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
             itemCount: filteredMenu.length,
             itemBuilder: (context, index) {
               var item = filteredMenu[index];
-              String name = item['name'] ?? item['Name'] ?? 'Страва';
+              String name = item['name'] ?? item['Name'] ?? 'Dish';
               int dishId = item['id'] ?? item['Id'] ?? 0;
 
               return Container(
@@ -805,7 +799,6 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                             Text(name, style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
                             const SizedBox(height: 8),
 
-                            // Генеруємо теги з локального словника!
                             Wrap(
                               spacing: 6, runSpacing: 6,
                               children: _buildTagsForDish(dishId),
@@ -821,7 +814,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                                   onPressed: () async {
                                     bool success = await ApiService.addToLobbyCart(_currentLobbyCode!, dishId);
                                     if (success) {
-                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$name додано!'), backgroundColor: Colors.green, duration: const Duration(seconds: 1)));
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$name added!'), backgroundColor: Colors.green, duration: const Duration(seconds: 1)));
                                       _fetchLobbyStatus();
                                     }
                                   },
@@ -832,7 +825,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                                       minimumSize: const Size(0, 32),
                                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
                                   ),
-                                  child: Text('В кошик', style: TextStyle(color: primaryGold, fontSize: 12, fontWeight: FontWeight.bold)),
+                                  child: Text('Add to cart', style: TextStyle(color: primaryGold, fontSize: 12, fontWeight: FontWeight.bold)),
                                 )
                               ],
                             ),
@@ -850,7 +843,6 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
     );
   }
 
-  // Функція яка витягує теги з нашого локального масиву
   List<Widget> _buildTagsForDish(int dishId) {
     List<Widget> tags = [];
     var dishData = _dishTags[dishId];
@@ -865,7 +857,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
     }
 
     if (tags.isEmpty) {
-      tags.add(_buildTasteTag('Фірмове'));
+      tags.add(_buildTasteTag('Signature'));
     }
 
     return tags;
@@ -876,21 +868,21 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
     Color color = Colors.white70;
 
     switch (tasteName.toLowerCase()) {
-      case 'гостре': icon = Icons.local_fire_department; color = Colors.redAccent; break;
-      case 'вегетаріанське': icon = Icons.eco; color = Colors.green; break;
-      case 'пряне': icon = Icons.whatshot; color = Colors.deepOrangeAccent; break;
-      case 'холоднe': case 'холодне': icon = Icons.ac_unit; color = Colors.lightBlueAccent; break;
-      case 'солодкe': case 'солодке': icon = Icons.icecream; color = Colors.pinkAccent; break;
-      case 'кисле': icon = Icons.sentiment_dissatisfied; color = Colors.limeAccent; break;
-      case 'ситне': icon = Icons.lunch_dining; color = Colors.orangeAccent; break;
-      case 'легке': icon = Icons.spa; color = Colors.lightGreenAccent; break;
-      case 'димне': icon = Icons.cloud; color = Colors.grey; break;
-      case 'вершкове': icon = Icons.water_drop; color = Colors.yellow[200]!; break;
-      case 'фруктове': icon = Icons.apple; color = Colors.red; break;
-      case 'грибне': icon = Icons.park; color = Colors.brown[300]!; break;
-      case 'дієтичне': icon = Icons.fitness_center; color = Colors.tealAccent; break;
-      case 'хрустке': icon = Icons.bolt; color = Colors.yellowAccent; break;
-      case 'пікантне': icon = Icons.star; color = Colors.amber; break;
+      case 'spicy': icon = Icons.local_fire_department; color = Colors.redAccent; break;
+      case 'vegetarian': icon = Icons.eco; color = Colors.green; break;
+      case 'savory': icon = Icons.whatshot; color = Colors.deepOrangeAccent; break;
+      case 'cold': icon = Icons.ac_unit; color = Colors.lightBlueAccent; break;
+      case 'sweet': icon = Icons.icecream; color = Colors.pinkAccent; break;
+      case 'sour': icon = Icons.sentiment_dissatisfied; color = Colors.limeAccent; break;
+      case 'hearty': icon = Icons.lunch_dining; color = Colors.orangeAccent; break;
+      case 'light': icon = Icons.spa; color = Colors.lightGreenAccent; break;
+      case 'smoky': icon = Icons.cloud; color = Colors.grey; break;
+      case 'creamy': icon = Icons.water_drop; color = Colors.yellow[200]!; break;
+      case 'fruity': icon = Icons.apple; color = Colors.red; break;
+      case 'mushroom': icon = Icons.park; color = Colors.brown[300]!; break;
+      case 'dietary': icon = Icons.fitness_center; color = Colors.tealAccent; break;
+      case 'crispy': icon = Icons.bolt; color = Colors.yellowAccent; break;
+      case 'piquant': icon = Icons.star; color = Colors.amber; break;
       default: icon = Icons.star; color = primaryGold;
     }
 
@@ -935,7 +927,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Залишок грошей:', style: TextStyle(color: Colors.white54, fontSize: 16)),
+                      const Text('Remaining balance:', style: TextStyle(color: Colors.white54, fontSize: 16)),
                       Text('$remaining ₴', style: TextStyle(
                           color: remaining >= 0 ? Colors.greenAccent : Colors.redAccent,
                           fontSize: 20,
@@ -948,7 +940,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                 if (cart.isEmpty)
                   const Padding(
                       padding: EdgeInsets.only(top: 40),
-                      child: Text('Спільний кошик порожній', style: TextStyle(color: Colors.white54, fontSize: 16))
+                      child: Text('The shared cart is empty', style: TextStyle(color: Colors.white54, fontSize: 16))
                   )
                 else
                   _buildGlassCard(
@@ -989,7 +981,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('СУМА ЛОБІ:', style: TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                    const Text('LOBBY TOTAL:', style: TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
                     Text('$currentCartTotal ₴', style: TextStyle(color: primaryGold, fontSize: 28, fontWeight: FontWeight.bold)),
                   ],
                 ),
@@ -1019,7 +1011,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
                     child: Text(
-                        remaining >= 0 ? 'ПЕРЕЙТИ ДО БРОНЮВАННЯ' : 'НЕ ВИСТАЧАЄ БЮДЖЕТУ',
+                        remaining >= 0 ? 'PROCEED TO BOOKING' : 'INSUFFICIENT BUDGET',
                         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, letterSpacing: 1.0)
                     ),
                   ),
@@ -1052,13 +1044,13 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
       builder: (context) {
         return AlertDialog(
           backgroundColor: surfaceDark,
-          title: Text('Ваш бюджет', style: TextStyle(color: primaryGold)),
+          title: Text('Your budget', style: TextStyle(color: primaryGold)),
           content: TextField(
             controller: budgetController, keyboardType: TextInputType.number, style: const TextStyle(color: Colors.white),
-            decoration: InputDecoration(hintText: 'Введіть суму', hintStyle: const TextStyle(color: Colors.white38), enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryGold)), focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryGold))),
+            decoration: const InputDecoration(hintText: 'Enter amount', hintStyle: TextStyle(color: Colors.white38), enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Color(0xFFFFD700))), focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Color(0xFFFFD700)))),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('СКАСУВАТИ', style: TextStyle(color: Colors.grey))),
+            TextButton(onPressed: () => Navigator.pop(context), child: const Text('CANCEL', style: TextStyle(color: Colors.grey))),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: primaryGold, foregroundColor: Colors.black),
               onPressed: () async {
@@ -1071,7 +1063,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
                   _fetchLobbyStatus();
                 }
               },
-              child: const Text('ЗБЕРЕГТИ'),
+              child: const Text('SAVE'),
             ),
           ],
         );

@@ -108,7 +108,7 @@ class _HomeTabState extends State<HomeTab> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         elevation: 0,
                       ),
-                      child: const Text('Перейти до Бронювання', textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                      child: const Text('GO TO BOOKING', textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                     ),
                   ),
                 ],
@@ -176,7 +176,7 @@ class _HomeTabState extends State<HomeTab> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'КОМПРОМІС',
+                    'KOMPROMIS',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: primaryGold,
@@ -188,13 +188,13 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'Місце, де преміальний смак зустрічається з ідеальною атмосферою. Авторське меню, відбірні стейки та унікальні події.',
+                    'A place where premium taste meets a perfect atmosphere. Signature menu, selected steaks, and unique events.',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
                   ),
                   const SizedBox(height: 40),
 
-                  // Кнопка: МЕНЮ
+                  // Button: MENU
                   ElevatedButton(
                     onPressed: () => widget.onTabChange(1),
                     style: ElevatedButton.styleFrom(
@@ -204,11 +204,11 @@ class _HomeTabState extends State<HomeTab> {
                       alignment: Alignment.center,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
-                    child: const Text('ПЕРЕЙТИ ДО МЕНЮ', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    child: const Text('GO TO MENU', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   ),
                   const SizedBox(height: 16),
 
-                  // Кнопка: ЛОБІ
+                  // Button: LOBBY
                   OutlinedButton(
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LobbyTab())),
                     style: OutlinedButton.styleFrom(
@@ -218,15 +218,15 @@ class _HomeTabState extends State<HomeTab> {
                       alignment: Alignment.center,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                     ),
-                    child: const Text('СТВОРИТИ ЛОБІ', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    child: const Text('CREATE LOBBY', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   ),
                   const SizedBox(height: 16),
 
-                  // Кнопка: ВІДГУКИ (НОВА)
+                  // Button: REVIEWS
                   TextButton.icon(
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewsTab())),
                     icon: Icon(Icons.star, color: primaryGold),
-                    label: const Text('ВІДГУКИ ГОСТЕЙ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14, letterSpacing: 1.0)),
+                    label: const Text('GUEST REVIEWS', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14, letterSpacing: 1.0)),
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     ),
@@ -246,24 +246,24 @@ class _HomeTabState extends State<HomeTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('ЕКСКЛЮЗИВНІ ПРОПОЗИЦІЇ', textAlign: TextAlign.center, style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+          Text('EXCLUSIVE OFFERS', textAlign: TextAlign.center, style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
           const SizedBox(height: 24),
           _buildOfferCard(
-              context, 'Стейк-Вечір для Двох', 'Томагавк з трюфельним маслом (800г) + 2 гарніри та вино.', '1 650 ₴',
-              "Величезний Томагавк з трюфельним маслом (800г)\nДва келихи преміального червоного вина\nОвочі гриль на гарнір\n\nІдеальний компроміс для справжніх м'ясоїдів.",
+              context, 'Steak Night for Two', 'Tomahawk with truffle butter (800g) + 2 sides and wine.', '\$40',
+              "Huge Tomahawk with truffle butter (800g)\nTwo glasses of premium red wine\nGrilled vegetables on the side\n\nThe perfect Kompromis for true meat lovers.",
               imageUrl: 'https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?q=80&w=1000'
           ),
           const SizedBox(height: 20),
           _buildOfferCard(
-              context, 'Італійський Компроміс', 'Будь-які 3 піци на вибір + Літр лимонаду.', '990 ₴',
-              "Будь-які 3 піци з нашого меню (включаючи авторські: з качкою, чорним трюфелем або крабом)\n+ 1 Літр фірмового лимонаду\n\nВибір великої компанії!",
+              context, 'Italian Kompromis', 'Any 3 pizzas of choice + 1 Liter of lemonade.', '\$25',
+              "Any 3 pizzas from our menu (including signature ones: duck, black truffle, or crab)\n+ 1 Liter of house lemonade\n\nA great choice for a big company!",
               imageUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1000'
           ),
           const SizedBox(height: 20),
           _buildOfferCard(
-              context, 'Щасливі Години', 'З 14:00 до 17:00 знижка -15% на десерти.', 'Щодня',
-              "З 14:00 до 17:00 знижка -15% на всі десерти та каву.\n\nАкція діє у внутрішньому залі та на терасі.",
-              priceInModal: "Щодня", imageUrl: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1000'
+              context, 'Happy Hours', 'From 14:00 to 17:00, get -15% off on desserts.', 'Daily',
+              "From 14:00 to 17:00, get -15% off on all desserts and coffee.\n\nOffer valid in the indoor hall and on the terrace.",
+              priceInModal: "Daily", imageUrl: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=1000'
           ),
         ],
       ),
@@ -302,7 +302,7 @@ class _HomeTabState extends State<HomeTab> {
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
-                      child: const Text('ДЕТАЛЬНІШЕ', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                      child: const Text('READ MORE', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                     ),
                   ],
                 ),
@@ -318,16 +318,16 @@ class _HomeTabState extends State<HomeTab> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('АФІША РЕСТОРАНУ', textAlign: TextAlign.center, style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.w800)),
+        Text('RESTAURANT EVENTS', textAlign: TextAlign.center, style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.w800)),
         const SizedBox(height: 24),
         SizedBox(
           height: 450,
           child: PageView(
             controller: PageController(viewportFraction: 0.92),
             children: [
-              _buildEventCard(context, '28 Лютого', 'Гурман-вечір:\nСезон Трюфелів', 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=800'),
-              _buildEventCard(context, '06 Березня', 'Вечір Живої Музики\nна Терасі', 'https://images.unsplash.com/photo-1516873240891-4bf014598ab4?q=80&w=800'),
-              _buildEventCard(context, '14 Березня', 'Винна Дегустація:\nІталія', 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=800'),
+              _buildEventCard(context, 'Feb 28', 'Gourmet Evening:\nTruffle Season', 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=800'),
+              _buildEventCard(context, 'Mar 06', 'Live Music Night\non the Terrace', 'https://images.unsplash.com/photo-1516873240891-4bf014598ab4?q=80&w=800'),
+              _buildEventCard(context, 'Mar 14', 'Wine Tasting:\nItaly', 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=800'),
             ],
           ),
         ),
@@ -366,7 +366,7 @@ class _HomeTabState extends State<HomeTab> {
                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                 ),
-                child: const Text('БРОНЬ СТОЛИКА', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                child: const Text('BOOK TABLE', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
               ),
               const Spacer(),
             ],

@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               child: BottomNavigationBar(
                 currentIndex: _currentIndex,
-                onTap: _changeTab, // Використовуємо ту саму функцію для кнопок самої панелі
+                onTap: _changeTab, // Using the same function for the panel buttons
                 backgroundColor: Colors.transparent,
                 selectedItemColor: const Color(0xFFFFD700),
                 unselectedItemColor: Colors.white70,
@@ -70,21 +70,21 @@ class _MainScreenState extends State<MainScreen> {
                   BottomNavigationBarItem(
                       icon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(Icons.home_outlined)),
                       activeIcon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(Icons.home)),
-                      label: 'Головна'
+                      label: 'Home'
                   ),
                   BottomNavigationBarItem(
                       icon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(Icons.restaurant_menu)),
-                      label: 'Меню'
+                      label: 'Menu'
                   ),
                   BottomNavigationBarItem(
                       icon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(Icons.event_seat_outlined)),
                       activeIcon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(Icons.event_seat)),
-                      label: 'Бронювання'
+                      label: 'Booking'
                   ),
                   BottomNavigationBarItem(
                       icon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(Icons.person_outline)),
                       activeIcon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(Icons.person)),
-                      label: 'Акаунт'
+                      label: 'Account'
                   ),
                 ],
               ),

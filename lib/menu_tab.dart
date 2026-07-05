@@ -17,8 +17,8 @@ class _MenuTabState extends State<MenuTab> {
 
   List<Map<String, dynamic>> _allItems = [];
   List<int> _favoriteIds = [];
-  String _selectedCategory = 'УСЕ';
-  List<String> _categories = ['УСЕ'];
+  String _selectedCategory = 'ALL';
+  List<String> _categories = ['ALL'];
 
   @override
   void initState() {
@@ -38,13 +38,13 @@ class _MenuTabState extends State<MenuTab> {
 
     Set<String> uniqueCategories = {};
     for (var item in typedItems) {
-      String cat = item['category']?.toString() ?? item['Category']?.toString() ?? 'УСЕ';
+      String cat = item['category']?.toString() ?? item['Category']?.toString() ?? 'ALL';
       uniqueCategories.add(cat);
     }
 
     if (mounted) {
       setState(() {
-        _categories = ['УСЕ', ...uniqueCategories.toList()];
+        _categories = ['ALL', ...uniqueCategories.toList()];
       });
     }
 
@@ -58,7 +58,7 @@ class _MenuTabState extends State<MenuTab> {
 
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Увійдіть в акаунт, щоб додавати в улюблене!'), backgroundColor: Colors.redAccent),
+        const SnackBar(content: Text('Please log in to add to favorites!'), backgroundColor: Colors.redAccent),
       );
       return;
     }
@@ -75,13 +75,13 @@ class _MenuTabState extends State<MenuTab> {
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Помилка сервера. Спробуйте пізніше.'), backgroundColor: Colors.redAccent),
+        const SnackBar(content: Text('Server error. Please try later.'), backgroundColor: Colors.redAccent),
       );
     }
   }
 
   List<Map<String, dynamic>> get _filteredItems {
-    if (_selectedCategory == 'УСЕ') {
+    if (_selectedCategory == 'ALL') {
       return _allItems;
     }
     return _allItems.where((item) {
@@ -122,7 +122,7 @@ class _MenuTabState extends State<MenuTab> {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'МЕНЮ',
+                      'MENU',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: primaryGold, fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 2.0),
                     ),
@@ -200,13 +200,13 @@ class _MenuTabState extends State<MenuTab> {
                     return Center(child: CircularProgressIndicator(color: primaryGold));
                   }
                   else if (snapshot.hasError) {
-                    return const Center(child: Text('Помилка завантаження меню', style: TextStyle(color: Colors.white70)));
+                    return const Center(child: Text('Error loading menu', style: TextStyle(color: Colors.white70)));
                   }
                   else if (snapshot.hasData) {
                     final itemsToDisplay = _filteredItems;
 
                     if (itemsToDisplay.isEmpty) {
-                      return const Center(child: Text('У цій категорії поки що порожньо', style: TextStyle(color: Colors.white54)));
+                      return const Center(child: Text('This category is currently empty', style: TextStyle(color: Colors.white54)));
                     }
 
                     return ListView.builder(
@@ -255,7 +255,7 @@ class _MenuTabState extends State<MenuTab> {
 
   Widget _buildMenuItemCard(Map<String, dynamic> item) {
     int dishId = int.tryParse(item['id']?.toString() ?? item['Id']?.toString() ?? '0') ?? 0;
-    String name = item['name']?.toString() ?? item['Name']?.toString() ?? 'Назва страви';
+    String name = item['name']?.toString() ?? item['Name']?.toString() ?? 'Dish Name';
     String desc = item['description']?.toString() ?? item['Description']?.toString() ?? '';
     String price = item['price']?.toString() ?? item['Price']?.toString() ?? '0';
     String imageUrl = item['imageUrl']?.toString() ?? item['ImageUrl']?.toString() ?? '';
@@ -321,7 +321,8 @@ class _MenuTabState extends State<MenuTab> {
                     const SizedBox(height: 10),
                     Text(desc, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white54, fontSize: 13, height: 1.4)),
                     const SizedBox(height: 20),
-                    Text('$price ₴', style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.bold)),
+                    // 🔥 ОСЬ ТУТ ЗМІНЕНО ЗНАЧОК НА ДОЛАР:
+                    Text('\$$price', style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20),
                     SizedBox(
                       width: double.infinity,
@@ -330,7 +331,7 @@ class _MenuTabState extends State<MenuTab> {
                         onPressed: () {
                           CartManager.addItem(item);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('$name додано в кошик!'), backgroundColor: Colors.green, duration: const Duration(seconds: 1)),
+                            SnackBar(content: Text('$name added to cart!'), backgroundColor: Colors.green, duration: const Duration(seconds: 1)),
                           );
                         },
                         style: OutlinedButton.styleFrom(
@@ -338,7 +339,7 @@ class _MenuTabState extends State<MenuTab> {
                           side: BorderSide(color: primaryGold, width: 1.5),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         ),
-                        child: const Text('ДОДАТИ В КОШИК', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                        child: const Text('ADD TO CART', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
                       ),
                     ),
                   ],
@@ -351,6 +352,7 @@ class _MenuTabState extends State<MenuTab> {
     );
   }
 }
+
 class AiChatModal extends StatefulWidget {
   const AiChatModal({Key? key}) : super(key: key);
 
@@ -368,7 +370,7 @@ class _AiChatModalState extends State<AiChatModal> {
   bool _isTyping = false;
 
   List<Map<String, String>> _messages = [
-    {'role': 'ai', 'text': 'Привіт! Я ваш цифровий сомельє та помічник по меню. Що вам порадити сьогодні?'}
+    {'role': 'ai', 'text': 'Hello! I am your digital sommelier and menu assistant. What can I recommend you today?'}
   ];
 
   void _sendMessage() async {
@@ -433,7 +435,7 @@ class _AiChatModalState extends State<AiChatModal> {
                       children: [
                         Icon(Icons.auto_awesome, color: primaryGold, size: 28),
                         const SizedBox(width: 12),
-                        const Text('ШІ-Офіціант', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                        const Text('AI Waiter', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                       ],
                     ),
                     IconButton(
@@ -488,7 +490,7 @@ class _AiChatModalState extends State<AiChatModal> {
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('ШІ-Офіціант друкує...', style: TextStyle(color: primaryGold, fontSize: 13, fontStyle: FontStyle.italic)),
+                    child: Text('AI Waiter is typing...', style: TextStyle(color: primaryGold, fontSize: 13, fontStyle: FontStyle.italic)),
                   ),
                 ),
 
@@ -505,7 +507,7 @@ class _AiChatModalState extends State<AiChatModal> {
                         controller: _controller,
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                          hintText: 'Запитайте про меню...',
+                          hintText: 'Ask about the menu...',
                           hintStyle: const TextStyle(color: Colors.white38),
                           filled: true,
                           fillColor: surfaceDark,

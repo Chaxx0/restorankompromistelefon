@@ -25,7 +25,7 @@ class _LoginTabState extends State<LoginTab> {
   void _handleLogin() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Введіть пошту та пароль'), backgroundColor: Colors.orange),
+        const SnackBar(content: Text('Enter email and password'), backgroundColor: Colors.orange),
       );
       return;
     }
@@ -39,13 +39,13 @@ class _LoginTabState extends State<LoginTab> {
       setState(() { _isLoading = false; });
       if (result['success'] == true) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['message'] ?? 'З поверненням до Компромісу!'), backgroundColor: Colors.green),
+          SnackBar(content: Text(result['message'] ?? 'Welcome back to Kompromis!'), backgroundColor: Colors.green),
         );
         widget.onLoginSuccess();
       } else {
-        // Показуємо точну помилку з сервера
+        // Show exact error from the server
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['message'] ?? 'Невірний Email або пароль'), backgroundColor: Colors.redAccent),
+          SnackBar(content: Text(result['message'] ?? 'Invalid Email or password'), backgroundColor: Colors.redAccent),
         );
       }
     }
@@ -93,12 +93,12 @@ class _LoginTabState extends State<LoginTab> {
                       Icon(Icons.restaurant_menu, color: primaryGold, size: 48),
                       const SizedBox(height: 16),
                       Text(
-                        'Компроміс',
+                        'Kompromis',
                         style: TextStyle(color: primaryGold, fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: 1.5),
                       ),
                       const SizedBox(height: 8),
                       const Text(
-                        'Вхід у ваш кабінет гостя',
+                        'Log into your guest account',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white70, fontSize: 14),
                       ),
@@ -123,7 +123,7 @@ class _LoginTabState extends State<LoginTab> {
                           ),
                           child: _isLoading
                               ? const CircularProgressIndicator(color: Colors.black)
-                              : const Text('УВІЙТИ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, letterSpacing: 1.2)),
+                              : const Text('LOG IN', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, letterSpacing: 1.2)),
                         ),
                       ),
                       const SizedBox(height: 32),
@@ -131,7 +131,7 @@ class _LoginTabState extends State<LoginTab> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('Новий гість? ', style: TextStyle(color: Colors.white70, fontSize: 14)),
+                          const Text('New guest? ', style: TextStyle(color: Colors.white70, fontSize: 14)),
                           GestureDetector(
                             onTap: () async {
                               final result = await Navigator.push(
@@ -143,7 +143,7 @@ class _LoginTabState extends State<LoginTab> {
                               }
                             },
                             child: Text(
-                              'Зареєструватись',
+                              'Register',
                               style: TextStyle(color: primaryGold, fontSize: 14, fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -188,7 +188,7 @@ class _LoginTabState extends State<LoginTab> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('ПАРОЛЬ', style: TextStyle(color: primaryGold, fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+        Text('PASSWORD', style: TextStyle(color: primaryGold, fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
         const SizedBox(height: 8),
         TextField(
           controller: _passwordController,

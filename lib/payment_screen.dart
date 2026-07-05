@@ -21,7 +21,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       _isProcessing = true;
     });
 
-    // Імітація затримки оплати
+    // Simulating payment delay[cite: 14]
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
@@ -29,11 +29,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Оплата пройшла успішно! Дякуємо за замовлення.'),
+            content: Text('Payment successful! Thank you for your order.'),
             backgroundColor: Colors.green,
           ),
         );
-        // Звичайне закриття вікна після успішної оплати
+        // Closing window after successful payment[cite: 14]
         Navigator.pop(context);
       }
     });
@@ -48,12 +48,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 22),
           onPressed: () {
-            // Звичайне закриття вікна по кнопці "назад"
+            // Standard window closing on back button[cite: 14]
             Navigator.pop(context);
           },
         ),
         iconTheme: IconThemeData(color: primaryGold),
-        title: Text('Оплата', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold)),
+        title: Text('Payment', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Stack(
@@ -86,24 +86,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         children: [
                           Icon(Icons.credit_card, color: primaryGold, size: 50),
                           const SizedBox(height: 16),
-                          Text('Оформлення', style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.bold)),
+                          Text('Checkout', style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
-                          Text('До сплати: ${widget.amount} ₴', style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text('Amount to pay: ${widget.amount} ₴', style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 32),
 
-                          _buildTextField('Номер картки', '0000 0000 0000 0000', Icons.numbers),
+                          _buildTextField('Card Number', '0000 0000 0000 0000', Icons.numbers),
                           const SizedBox(height: 16),
 
                           Row(
                             children: [
-                              Expanded(child: _buildTextField('Термін дії', 'ММ/РР', Icons.calendar_today)),
+                              Expanded(child: _buildTextField('Expiry Date', 'MM/YY', Icons.calendar_today)),
                               const SizedBox(width: 16),
                               Expanded(child: _buildTextField('CVC', '123', Icons.security)),
                             ],
                           ),
                           const SizedBox(height: 16),
 
-                          _buildTextField('Ім\'я на картці', 'TARAS SHEVCHENKO', Icons.person_outline),
+                          _buildTextField('Cardholder Name', 'TARAS SHEVCHENKO', Icons.person_outline),
                           const SizedBox(height: 32),
 
                           SizedBox(
@@ -118,7 +118,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               ),
                               child: _isProcessing
                                   ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.black, strokeWidth: 2))
-                                  : const Text('ОПЛАТИТИ', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0, fontSize: 16)),
+                                  : const Text('PAY', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0, fontSize: 16)),
                             ),
                           ),
                         ],

@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'profile_tab.dart';
 import 'login_tab.dart';
-
 class ProfileWrapper extends StatefulWidget {
   @override
   _ProfileWrapperState createState() => _ProfileWrapperState();
@@ -26,14 +26,12 @@ class _ProfileWrapperState extends State<ProfileWrapper> {
   }
   @override
   Widget build(BuildContext context) {
-
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator(color: Color(0xFFFFD700)));
     }
     if (_isLoggedIn) {
       return ProfileTab(onLogout: _checkAuthStatus);
-    }
-    else {
+    } else {
       return LoginTab(onLoginSuccess: _checkAuthStatus);
     }
   }

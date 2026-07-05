@@ -6,19 +6,22 @@ class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
+
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final Color primaryGold = const Color(0xFFFFD700);
   final Color surfaceDark = const Color(0xFF1A1A1A);
   bool _isPasswordVisible = false;
   bool _isConfirmVisible = false;
   bool _isLoading = false;
-  // контролери
+
+  // Controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -42,7 +45,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
     if (picked != null) {
       setState(() {
-        // РРРР-ММ-ДД
+        // YYYY-MM-DD
         _dobController.text = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
       });
     }
@@ -55,14 +58,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _dobController.text.isEmpty ||
         _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Будь ласка, заповніть усі поля'), backgroundColor: Colors.redAccent),
+        const SnackBar(content: Text('Please fill in all fields'), backgroundColor: Colors.redAccent),
       );
       return;
     }
 
     if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Паролі не збігаються!'), backgroundColor: Colors.redAccent),
+        const SnackBar(content: Text('Passwords do not match!'), backgroundColor: Colors.redAccent),
       );
       return;
     }
@@ -81,16 +84,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       if (result['success'] == true) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['message'] ?? 'Реєстрація успішна!'), backgroundColor: Colors.green),
+          SnackBar(content: Text(result['message'] ?? 'Registration successful!'), backgroundColor: Colors.green),
         );
         Navigator.pop(context, true);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['message'] ?? 'Помилка реєстрації.'), backgroundColor: Colors.redAccent),
+          SnackBar(content: Text(result['message'] ?? 'Registration error.'), backgroundColor: Colors.redAccent),
         );
       }
     }
   }
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -101,6 +105,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _confirmPasswordController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,22 +143,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       children: [
                         Icon(Icons.person_add_outlined, color: primaryGold, size: 40),
                         const SizedBox(height: 12),
-                        Text('Реєстрація', style: TextStyle(color: primaryGold, fontSize: 28, fontWeight: FontWeight.bold)),
+                        Text('Registration', style: TextStyle(color: primaryGold, fontSize: 28, fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
-                        const Text('Приєднуйтесь до сім\'ї Компроміс', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 13)),
+                        const Text('Join the Kompromis family', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 13)),
                         const SizedBox(height: 24),
 
-                        _buildTextField(label: 'ІМ\'Я', hint: 'Артем', icon: Icons.person_outline, controller: _nameController),
+                        _buildTextField(label: 'NAME', hint: 'Viktor Tompson', icon: Icons.person_outline, controller: _nameController),
                         const SizedBox(height: 16),
 
                         _buildTextField(label: 'EMAIL', hint: 'your@email.com', icon: Icons.email_outlined, controller: _emailController, keyboardType: TextInputType.emailAddress),
                         const SizedBox(height: 16),
 
-                        _buildTextField(label: 'ТЕЛЕФОН', hint: '+380...', icon: Icons.phone_outlined, controller: _phoneController, keyboardType: TextInputType.phone),
+                        _buildTextField(label: 'PHONE', hint: '+1...', icon: Icons.phone_outlined, controller: _phoneController, keyboardType: TextInputType.phone),
                         const SizedBox(height: 16),
                         _buildTextField(
-                          label: 'ДАТА НАРОДЖЕННЯ',
-                          hint: 'Оберіть дату',
+                          label: 'DATE OF BIRTH',
+                          hint: 'Select date',
                           icon: Icons.calendar_today_outlined,
                           controller: _dobController,
                           readOnly: true,
@@ -162,7 +167,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const SizedBox(height: 16),
 
                         _buildPasswordField(
-                          label: 'ПАРОЛЬ',
+                          label: 'PASSWORD',
                           isVisible: _isPasswordVisible,
                           controller: _passwordController,
                           onToggle: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
@@ -170,7 +175,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const SizedBox(height: 16),
 
                         _buildPasswordField(
-                          label: 'ПІДТВЕРДЖЕННЯ',
+                          label: 'CONFIRMATION',
                           isVisible: _isConfirmVisible,
                           controller: _confirmPasswordController,
                           onToggle: () => setState(() => _isConfirmVisible = !_isConfirmVisible),
@@ -190,7 +195,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                             child: _isLoading
                                 ? const CircularProgressIndicator(color: Colors.black)
-                                : const Text('ЗАРЕЄСТРУВАТИСЬ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, letterSpacing: 1.2)),
+                                : const Text('SIGN UP', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, letterSpacing: 1.2)),
                           ),
                         ),
                         const SizedBox(height: 24),
@@ -198,10 +203,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('Вже маєте акаунт? ', style: TextStyle(color: Colors.white70, fontSize: 14)),
+                            const Text('Already have an account? ', style: TextStyle(color: Colors.white70, fontSize: 14)),
                             GestureDetector(
                               onTap: () => Navigator.pop(context),
-                              child: Text('Увійти', style: TextStyle(color: primaryGold, fontSize: 14, fontWeight: FontWeight.bold)),
+                              child: Text('Log in', style: TextStyle(color: primaryGold, fontSize: 14, fontWeight: FontWeight.bold)),
                             ),
                           ],
                         ),
@@ -225,6 +230,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
+
   Widget _buildTextField({
     required String label,
     required String hint,

@@ -12,12 +12,13 @@ class CartTab extends StatefulWidget {
 class _CartTabState extends State<CartTab> {
   final Color primaryGold = const Color(0xFFFFD700);
   final Color surfaceDark = const Color(0xFF1A1A1A);
+
   Future<void> _handleCheckout() async {
     String? userId = await ApiService.getUserId();
 
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Будь ласка, увійдіть в акаунт, щоб зробити замовлення!'), backgroundColor: Colors.redAccent),
+        const SnackBar(content: Text('Please log in to place an order!'), backgroundColor: Colors.redAccent),
       );
       return;
     }
@@ -62,7 +63,7 @@ class _CartTabState extends State<CartTab> {
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          'КОШИК',
+                          'CART',
                           style: TextStyle(color: primaryGold, fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 2.0),
                         ),
                       ),
@@ -70,7 +71,7 @@ class _CartTabState extends State<CartTab> {
                   ),
                 ),
 
-                // список блюд
+                // List of items
                 Expanded(
                   child: ValueListenableBuilder<List<Map<String, dynamic>>>(
                     valueListenable: CartManager.cartItems,
@@ -82,7 +83,7 @@ class _CartTabState extends State<CartTab> {
                             children: [
                               Icon(Icons.remove_shopping_cart_outlined, color: Colors.white24, size: 80),
                               SizedBox(height: 16),
-                              Text('Ваш кошик порожній', style: TextStyle(color: Colors.white54, fontSize: 18)),
+                              Text('Your cart is empty', style: TextStyle(color: Colors.white54, fontSize: 18)),
                             ],
                           ),
                         );
@@ -101,7 +102,7 @@ class _CartTabState extends State<CartTab> {
                   ),
                 ),
 
-                // нижня пенль сума
+                // Bottom summary panel
                 ValueListenableBuilder<List<Map<String, dynamic>>>(
                   valueListenable: CartManager.cartItems,
                   builder: (context, items, child) {
@@ -120,8 +121,8 @@ class _CartTabState extends State<CartTab> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text('ЗАГАЛОМ:', style: TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
-                              Text('${CartManager.getTotalPrice()} ₴', style: TextStyle(color: primaryGold, fontSize: 28, fontWeight: FontWeight.bold)),
+                              const Text('TOTAL:', style: TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                              Text('\$${CartManager.getTotalPrice()}', style: TextStyle(color: primaryGold, fontSize: 28, fontWeight: FontWeight.bold)),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -135,7 +136,7 @@ class _CartTabState extends State<CartTab> {
                                 foregroundColor: Colors.black,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                               ),
-                              child: const Text('ПЕРЕЙТИ ДО БРОНЮВАННЯ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, letterSpacing: 1.0)),
+                              child: const Text('PROCEED TO BOOKING', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, letterSpacing: 1.0)),
                             ),
                           ),
                         ],
@@ -193,7 +194,7 @@ class _CartTabState extends State<CartTab> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Text(item['name'] ?? item['Name'] ?? 'Страва', style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                      child: Text(item['name'] ?? item['Name'] ?? 'Dish', style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                     ),
                     if (quantity > 1)
                       Container(
@@ -208,7 +209,7 @@ class _CartTabState extends State<CartTab> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text('$rowTotal ₴', style: TextStyle(color: primaryGold, fontSize: 16, fontWeight: FontWeight.bold)),
+                Text('\$$rowTotal', style: TextStyle(color: primaryGold, fontSize: 16, fontWeight: FontWeight.bold)),
               ],
             ),
           ),

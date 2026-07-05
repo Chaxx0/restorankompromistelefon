@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiService {
   static const String baseUrl = "http://kompromis.somee.com";
 
-  // Локальне збереження
+  // Local storage
   static Future<void> saveUserId(String userId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('userId', userId);
@@ -21,7 +21,7 @@ class ApiService {
     await prefs.remove('userId');
   }
 
-  // Авторизація
+  // Authentication
   static Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       final response = await http.post(
@@ -34,18 +34,19 @@ class ApiService {
 
       if (response.statusCode == 200 && data['success'] == true) {
         await saveUserId(data['userId']);
-        return {'success': true, 'message': 'Вхід успішний!'};
+        return {'success': true, 'message': 'Login successful!'};
       } else {
-        return {'success': false, 'message': data['message'] ?? 'Невірний логін або пароль.'};
+        return {'success': false, 'message': data['message'] ?? 'Invalid login or password.'};
       }
     } catch (e) {
-      return {'success': false, 'message': 'Помилка з\'єднання з сервером.'};
+      return {'success': false, 'message': 'Server connection error.'};
     }
   }
 
   static Future<Map<String, dynamic>> register(String name, String email, String password, String phone, String dob) async {
     try {
       final response = await http.post(
+        // 🔥 ПОВЕРНУЛИ ПРАВИЛЬНИЙ МАРШРУТ ДО ТВОГО AuthApiController.cs:
         Uri.parse('$baseUrl/api/auth/register'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
@@ -60,12 +61,12 @@ class ApiService {
       var data = json.decode(response.body);
 
       if (response.statusCode == 200 && data['success'] == true) {
-        return {'success': true, 'message': data['message'] ?? 'Успішно! Перевірте пошту для підтвердження.'};
+        return {'success': true, 'message': data['message'] ?? 'Success! Please check your email for confirmation.'};
       } else {
-        return {'success': false, 'message': data['message'] ?? 'Помилка реєстрації. Можливо, Email вже зайнятий.'};
+        return {'success': false, 'message': data['message'] ?? 'Registration error. Email might already be taken.'};
       }
     } catch (e) {
-      return {'success': false, 'message': 'Помилка з\'єднання з сервером.'};
+      return {'success': false, 'message': 'Server connection error.'};
     }
   }
 
@@ -82,7 +83,7 @@ class ApiService {
     }
   }
 
-  // Меню
+  // Menu
   static Future<List<dynamic>> fetchMenu() async {
     try {
       final response = await http.get(Uri.parse('$baseUrl/api/menu'));
@@ -95,7 +96,7 @@ class ApiService {
     }
   }
 
-  // Профіль та Історія
+  // Profile and History
   static Future<Map<String, dynamic>?> getUserProfile(String userId) async {
     try {
       final response = await http.get(Uri.parse('$baseUrl/api/profile/$userId'));
@@ -142,7 +143,7 @@ class ApiService {
     }
   }
 
-  // Взаємодія
+  // Interactions
   static Future<List<int>> getFavoriteIds(String userId) async {
     try {
       final response = await http.get(Uri.parse('$baseUrl/api/interactions/favorites/$userId'));
@@ -202,7 +203,7 @@ class ApiService {
     }
   }
 
-  // Кошик та Оплата
+  // Cart and Checkout
   static Future<bool> addToCart(String userId, int dishId, int quantity) async {
     try {
       final response = await http.post(
@@ -229,7 +230,7 @@ class ApiService {
   static Future<bool> checkout(String userId, double totalPrice, List<Map<String, dynamic>> items) async {
     try {
       List<Map<String, dynamic>> formattedItems = items.map((item) => {
-        'name': item['name']?.toString() ?? item['Name']?.toString() ?? 'Страва',
+        'name': item['name']?.toString() ?? item['Name']?.toString() ?? 'Dish',
         'quantity': item['quantity'] ?? 1,
         'price': double.tryParse(item['price']?.toString() ?? item['Price']?.toString() ?? '0') ?? 0.0
       }).toList();
@@ -250,7 +251,7 @@ class ApiService {
     }
   }
 
-  // ШІ Офіціант
+  // AI Waiter
   static Future<String> askAiWaiter(List<Map<String, String>> history) async {
     try {
       List<Map<String, String>> formattedHistory = history.map((m) {
@@ -268,18 +269,18 @@ class ApiService {
 
       if (response.statusCode == 200) {
         final data = json.decode(utf8.decode(response.bodyBytes));
-        if (data['reply'] == "LIMIT_REACHED") return "ШІ потребує перерви. Спробуйте через хвилинку!";
-        String replyText = data['reply'] ?? "Офіціант задумався...";
+        if (data['reply'] == "LIMIT_REACHED") return "The AI needs a break. Try again in a minute!";
+        String replyText = data['reply'] ?? "The waiter is thinking...";
         replyText = replyText.replaceAll(RegExp(r'<[^>]*>'), '');
         return replyText;
       }
-      return "Помилка зв'язку з ШІ";
+      return "AI connection error";
     } catch (e) {
-      return "Сервер ШІ тимчасово недоступний";
+      return "AI server is temporarily unavailable";
     }
   }
 
-  // Спільне Лобі
+  // Shared Lobby
   static Future<Map<String, dynamic>?> createLobby(String userId) async {
     try {
       final response = await http.post(
@@ -358,7 +359,7 @@ class ApiService {
     }
   }
 
-  // Бронювання
+  // Booking
   static Future<bool> createBooking(Map<String, dynamic> bookingData) async {
     try {
       final response = await http.post(
@@ -376,15 +377,16 @@ class ApiService {
     }
   }
 
-  // РЕАЛЬНЕ Отримання розкладу зайнятості столів з сайту
+  // REAL Fetching of table occupancy schedule from the API
   static Future<Map<int, List<String>>> getDailySchedule(String date) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/Home/GetDailySchedule?date=$date'));
+      // 🔥 ВИПРАВЛЕНО: Тепер мобільний додаток звертається до нового контролера
+      final response = await http.get(Uri.parse('$baseUrl/api/booking/schedule?date=$date'));
 
       if (response.statusCode == 200) {
-        // ЗАПОБІЖНИК: Якщо сервер повернув HTML (наприклад, сторінку логіну через відсутність кукі)
+        // Захист на випадок, якщо сервер замість JSON поверне сторінку логіну (HTML)
         if (response.body.trim().startsWith('<')) {
-          print('Сервер повернув HTML. Можливо, потрібні Cookies для цього запиту.');
+          print('Server returned HTML. Cookies might be required for this request.');
           return {};
         }
 
@@ -403,7 +405,7 @@ class ApiService {
       }
       return {};
     } catch (e) {
-      print('Помилка розкладу: $e');
+      print('Schedule error: $e');
       return {};
     }
   }

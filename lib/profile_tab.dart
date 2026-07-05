@@ -77,11 +77,11 @@ class _ProfileTabState extends State<ProfileTab> {
 
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Зміни успішно збережено!'), backgroundColor: Colors.green),
+          const SnackBar(content: Text('Changes saved successfully!'), backgroundColor: Colors.green),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Не вдалося зберегти зміни.'), backgroundColor: Colors.redAccent),
+          const SnackBar(content: Text('Failed to save changes.'), backgroundColor: Colors.redAccent),
         );
       }
     } else {
@@ -155,19 +155,19 @@ class _ProfileTabState extends State<ProfileTab> {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          Text('Ваш профіль', style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.bold)),
-                          const Text('Особисті дані та налаштування', style: TextStyle(color: Colors.white70, fontSize: 13)),
+                          Text('Your Profile', style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.bold)),
+                          const Text('Personal details and settings', style: TextStyle(color: Colors.white70, fontSize: 13)),
                           const SizedBox(height: 8),
-                          const Text('Потягніть екран вниз, щоб оновити дані ⬇', style: TextStyle(color: Colors.white38, fontSize: 11, fontStyle: FontStyle.italic)),
+                          const Text('Pull down to refresh data ⬇', style: TextStyle(color: Colors.white38, fontSize: 11, fontStyle: FontStyle.italic)),
                           const SizedBox(height: 30),
 
-                          _buildReadOnlyField(label: 'ЕЛЕКТРОННА ПОШТА', controller: _emailController),
+                          _buildReadOnlyField(label: 'EMAIL', controller: _emailController),
                           const SizedBox(height: 20),
-                          _buildEditableField(label: 'ПОВНЕ ІМ\'Я', controller: _nameController, icon: Icons.person_outline),
+                          _buildEditableField(label: 'FULL NAME', controller: _nameController, icon: Icons.person_outline),
                           const SizedBox(height: 20),
-                          _buildEditableField(label: 'НОМЕР ТЕЛЕФОНУ', controller: _phoneController, icon: Icons.phone_outlined),
+                          _buildEditableField(label: 'PHONE NUMBER', controller: _phoneController, icon: Icons.phone_outlined),
                           const SizedBox(height: 20),
-                          _buildEditableField(label: 'ДАТА НАРОДЖЕННЯ', controller: _dobController, icon: Icons.calendar_today_outlined),
+                          _buildEditableField(label: 'DATE OF BIRTH', controller: _dobController, icon: Icons.calendar_today_outlined),
                           const SizedBox(height: 30),
 
                           SizedBox(
@@ -182,7 +182,7 @@ class _ProfileTabState extends State<ProfileTab> {
                               ),
                               child: _isSaving
                                   ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.black, strokeWidth: 2))
-                                  : const Text('ЗБЕРЕГТИ ЗМІНИ', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                                  : const Text('SAVE CHANGES', style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.0)),
                             ),
                           ),
                         ],
@@ -190,7 +190,7 @@ class _ProfileTabState extends State<ProfileTab> {
                     ),
                     const SizedBox(height: 24),
 
-                    // СЕКЦІЯ: УЛЮБЛЕНЕ
+                    // SECTION: FAVORITES
                     _buildGlassCard(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,7 +203,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                 child: Icon(Icons.favorite, color: primaryGold, size: 24),
                               ),
                               const SizedBox(width: 16),
-                              Text('Улюблене', style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
+                              Text('Favorites', style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -215,7 +215,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                   children: [
                                     Icon(Icons.heart_broken, color: Colors.white24, size: 64),
                                     SizedBox(height: 16),
-                                    Text('Ви ще не додали жодної страви', style: TextStyle(color: Colors.white70, fontSize: 16)),
+                                    Text('You haven\'t added any dishes yet', style: TextStyle(color: Colors.white70, fontSize: 16)),
                                   ],
                                 ),
                               ),
@@ -240,7 +240,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                 child: Icon(Icons.shopping_bag, color: primaryGold, size: 24),
                               ),
                               const SizedBox(width: 16),
-                              Text('Історія замовлень', style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
+                              Text('Order History', style: TextStyle(color: primaryGold, fontSize: 22, fontWeight: FontWeight.bold)),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -252,7 +252,7 @@ class _ProfileTabState extends State<ProfileTab> {
                                   children: [
                                     Icon(Icons.receipt_long, color: Colors.white24, size: 64),
                                     SizedBox(height: 16),
-                                    Text('Ви ще не робили замовлень', style: TextStyle(color: Colors.white70, fontSize: 16)),
+                                    Text('You haven\'t placed any orders yet', style: TextStyle(color: Colors.white70, fontSize: 16)),
                                   ],
                                 ),
                               ),
@@ -272,7 +272,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       child: OutlinedButton.icon(
                         onPressed: _handleLogout,
                         icon: const Icon(Icons.logout, color: Colors.redAccent),
-                        label: const Text('ВИЙТИ З АКАУНТУ', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                        label: const Text('LOG OUT', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(color: Colors.redAccent),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -289,7 +289,7 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   Widget _buildFavoriteItem(Map<String, dynamic> fav) {
-    String dishName = fav['dishName'] ?? fav['DishName'] ?? 'Страва';
+    String dishName = fav['dishName'] ?? fav['DishName'] ?? 'Dish';
     String price = fav['price']?.toString() ?? fav['Price']?.toString() ?? '0';
     String imageUrl = fav['imageUrl'] ?? fav['ImageUrl'] ?? '';
 
@@ -324,11 +324,11 @@ class _ProfileTabState extends State<ProfileTab> {
               children: [
                 Text(dishName, style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 4),
-                Text('$price ₴', style: TextStyle(color: primaryGold, fontSize: 14, fontWeight: FontWeight.bold)),
+                Text('\$$price', style: TextStyle(color: primaryGold, fontSize: 14, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
-          Icon(Icons.favorite, color: Colors.redAccent, size: 24),
+          const Icon(Icons.favorite, color: Colors.redAccent, size: 24),
         ],
       ),
     );
@@ -354,14 +354,14 @@ class _ProfileTabState extends State<ProfileTab> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Замовлення №$orderId', style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
+              Text('Order #$orderId', style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
               Text(date, style: const TextStyle(color: Colors.white54, fontSize: 12)),
               const SizedBox(height: 2),
-              Text('Страв у чеку: $count', style: const TextStyle(color: Colors.white54, fontSize: 12)),
+              Text('Items in receipt: $count', style: const TextStyle(color: Colors.white54, fontSize: 12)),
             ],
           ),
-          Text('$total ₴', style: TextStyle(color: primaryGold, fontSize: 18, fontWeight: FontWeight.bold)),
+          Text('\$$total', style: TextStyle(color: primaryGold, fontSize: 18, fontWeight: FontWeight.bold)),
         ],
       ),
     );
