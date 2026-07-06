@@ -48,7 +48,16 @@ class _ProfileTabState extends State<ProfileTab> {
             _phoneController.text = userData['phone'] ?? userData['PhoneNumber'] ?? '';
 
             String rawDob = userData['dob'] ?? userData['Dob'] ?? '';
-            _dobController.text = rawDob.length > 10 ? rawDob.substring(0, 10) : rawDob;
+            if (rawDob.length >= 10) {
+              try {
+                final dobDate = DateTime.parse(rawDob.substring(0, 10));
+                _dobController.text = '${dobDate.month.toString().padLeft(2, '0')}/${dobDate.day.toString().padLeft(2, '0')}/${dobDate.year}';
+              } catch (e) {
+                _dobController.text = rawDob.substring(0, 10);
+              }
+            } else {
+              _dobController.text = rawDob;
+            }
           }
 
           _favorites = favs;
@@ -67,10 +76,19 @@ class _ProfileTabState extends State<ProfileTab> {
     String? userId = await ApiService.getUserId();
 
     if (userId != null) {
+      String finalDobForBackend = _dobController.text.trim();
+      // Конвертуємо назад для бекенду (з MM/DD/YYYY у YYYY-MM-DD)
+      try {
+        var parts = finalDobForBackend.split('/');
+        if (parts.length == 3) {
+          finalDobForBackend = '${parts[2]}-${parts[0]}-${parts[1]}';
+        }
+      } catch (e) {}
+
       bool success = await ApiService.updateUserProfile(userId, {
         'FullName': _nameController.text.trim(),
         'PhoneNumber': _phoneController.text.trim(),
-        'Dob': _dobController.text.trim(),
+        'Dob': finalDobForBackend, // Відправляємо перероблений формат
       });
 
       setState(() { _isSaving = false; });
@@ -97,7 +115,7 @@ class _ProfileTabState extends State<ProfileTab> {
   String _formatDate(String isoDate) {
     try {
       final date = DateTime.parse(isoDate).toLocal();
-      return '${date.day.toString().padLeft(2,'0')}.${date.month.toString().padLeft(2,'0')}.${date.year} ${date.hour.toString().padLeft(2,'0')}:${date.minute.toString().padLeft(2,'0')}';
+      return '${date.month.toString().padLeft(2,'0')}/${date.day.toString().padLeft(2,'0')}/${date.year} ${date.hour.toString().padLeft(2,'0')}:${date.minute.toString().padLeft(2,'0')}';
     } catch(e) {
       return isoDate;
     }

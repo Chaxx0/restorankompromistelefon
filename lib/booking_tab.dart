@@ -463,7 +463,7 @@ class _BookingTabState extends State<BookingTab> {
                           children: [
                             Text('VISIT DATE', style: TextStyle(color: primaryGold, fontSize: 12, fontWeight: FontWeight.bold)),
                             const SizedBox(height: 4),
-                            Text(DateFormat('dd.MM.yyyy').format(_selectedDate), style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                            Text(DateFormat('MM/dd/yyyy').format(_selectedDate), style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),

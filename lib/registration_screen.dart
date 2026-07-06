@@ -14,6 +14,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool _isConfirmVisible = false;
   bool _isLoading = false;
 
+  // Змінна для збереження дати у правильному форматі для бекенду
+  String _backendDob = "";
+
   // Controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -45,8 +48,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
     if (picked != null) {
       setState(() {
-        // YYYY-MM-DD
-        _dobController.text = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+        // Зберігаємо для бекенду у РРРР-ММ-ДД
+        _backendDob = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+        // Користувачу показуємо ММ/ДД/РРРР
+        _dobController.text = "${picked.month.toString().padLeft(2, '0')}/${picked.day.toString().padLeft(2, '0')}/${picked.year}";
       });
     }
   }
@@ -76,7 +81,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       _emailController.text.trim(),
       _passwordController.text.trim(),
       _phoneController.text.trim(),
-      _dobController.text.trim(),
+      _backendDob, // Відправляємо на бекенд правильний формат
     );
 
     if (mounted) {
@@ -148,13 +153,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const Text('Join the Kompromis family', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 13)),
                         const SizedBox(height: 24),
 
-                        _buildTextField(label: 'NAME', hint: 'Viktor Tompson', icon: Icons.person_outline, controller: _nameController),
+                        _buildTextField(label: 'NAME', hint: 'Artem', icon: Icons.person_outline, controller: _nameController),
                         const SizedBox(height: 16),
 
                         _buildTextField(label: 'EMAIL', hint: 'your@email.com', icon: Icons.email_outlined, controller: _emailController, keyboardType: TextInputType.emailAddress),
                         const SizedBox(height: 16),
 
-                        _buildTextField(label: 'PHONE', hint: '+1...', icon: Icons.phone_outlined, controller: _phoneController, keyboardType: TextInputType.phone),
+                        _buildTextField(label: 'PHONE', hint: '+380...', icon: Icons.phone_outlined, controller: _phoneController, keyboardType: TextInputType.phone),
                         const SizedBox(height: 16),
                         _buildTextField(
                           label: 'DATE OF BIRTH',

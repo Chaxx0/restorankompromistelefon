@@ -70,7 +70,7 @@ class _ReviewsTabState extends State<ReviewsTab> {
   String _formatDate(String isoDate) {
     try {
       final date = DateTime.parse(isoDate).toLocal();
-      return '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}';
+      return '${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}/${date.year}';
     } catch (e) {
       return isoDate;
     }
