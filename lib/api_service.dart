@@ -377,14 +377,11 @@ class ApiService {
     }
   }
 
-  // REAL Fetching of table occupancy schedule from the API
   static Future<Map<int, List<String>>> getDailySchedule(String date) async {
     try {
-      // 🔥 ВИПРАВЛЕНО: Тепер мобільний додаток звертається до нового контролера
       final response = await http.get(Uri.parse('$baseUrl/api/booking/schedule?date=$date'));
 
       if (response.statusCode == 200) {
-        // Захист на випадок, якщо сервер замість JSON поверне сторінку логіну (HTML)
         if (response.body.trim().startsWith('<')) {
           print('Server returned HTML. Cookies might be required for this request.');
           return {};
