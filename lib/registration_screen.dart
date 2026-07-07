@@ -153,7 +153,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const Text('Join the Compromice family', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 13)),
                         const SizedBox(height: 24),
 
-                        _buildTextField(label: 'NАME', hint: 'Tomas Smith', icon: Icons.person_outline, controller: _nameController),
+                        _buildTextField(label: 'NАME', hint: 'Tаmas Smith', icon: Icons.person_outline, controller: _nameController),
                         const SizedBox(height: 16),
 
                         _buildTextField(label: 'EMAIL', hint: 'your@email.com', icon: Icons.email_outlined, controller: _emailController, keyboardType: TextInputType.emailAddress),
