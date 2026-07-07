@@ -255,7 +255,7 @@ class _HomeTabState extends State<HomeTab> {
           ),
           const SizedBox(height: 20),
           _buildOfferCard(
-              context, 'Italian compromice', 'Any 3 pizzas of choice + 1 Liter of lemonade.', '\$25',
+              context, 'Italian compromіce', 'Any 3 pizzas of choice + 1 Liter of lemonade.', '\$25',
               "Any 3 pizzas from our menu (including signature ones: duck, black truffle, or crab)\n+ 1 Liter of house lemonade\n\nA great choice for a big company!",
               imageUrl: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1000'
           ),
