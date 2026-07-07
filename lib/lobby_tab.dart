@@ -376,7 +376,7 @@ class _LobbyTabState extends State<LobbyTab> with SingleTickerProviderStateMixin
       appBar: AppBar(
         backgroundColor: Colors.black,
         iconTheme: IconThemeData(color: primaryGold),
-        title: Text('Kompromis', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold)),
+        title: Text('Compromise', style: TextStyle(color: primaryGold, fontWeight: FontWeight.bold)),
         centerTitle: true,
         actions: [
           if (_currentLobbyCode != null && _isLoggedIn)

@@ -150,7 +150,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         const SizedBox(height: 12),
                         Text('Registration', style: TextStyle(color: primaryGold, fontSize: 28, fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
-                        const Text('Join the Kompromis family', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 13)),
+                        const Text('Join the Compromice family', textAlign: TextAlign.center, style: TextStyle(color: Colors.white70, fontSize: 13)),
                         const SizedBox(height: 24),
 
                         _buildTextField(label: 'NAME', hint: 'Artem', icon: Icons.person_outline, controller: _nameController),

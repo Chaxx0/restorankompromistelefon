@@ -39,7 +39,7 @@ class _LoginTabState extends State<LoginTab> {
       setState(() { _isLoading = false; });
       if (result['success'] == true) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['message'] ?? 'Welcome back to Kompromis!'), backgroundColor: Colors.green),
+          SnackBar(content: Text(result['message'] ?? 'Welcome back to Compromise!'), backgroundColor: Colors.green),
         );
         widget.onLoginSuccess();
       } else {
@@ -93,7 +93,7 @@ class _LoginTabState extends State<LoginTab> {
                       Icon(Icons.restaurant_menu, color: primaryGold, size: 48),
                       const SizedBox(height: 16),
                       Text(
-                        'Kompromis',
+                        'Compromice',
                         style: TextStyle(color: primaryGold, fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: 1.5),
                       ),
                       const SizedBox(height: 8),

@@ -176,7 +176,7 @@ class _HomeTabState extends State<HomeTab> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'KOMPROMIS',
+                    'COMPROMISE',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: primaryGold,
