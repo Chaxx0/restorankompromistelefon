@@ -250,7 +250,7 @@ class _HomeTabState extends State<HomeTab> {
           const SizedBox(height: 24),
           _buildOfferCard(
               context, 'Steak Night for Two', 'Tomahawk with truffle butter (800g) + 2 sides and wine.', '\$40',
-              "Huge Tomahawk with truffle butter (800g)\nTwo glasses of premium red wine\nGrilled vegetables on the side\n\nThe perfect compromіce for true meat lovers.",
+              "Huge Tomahawk with truffle butter (800g)\nTwo glasses of premium red wine\nGrilled vegetables on the side\n\nThe perfect cоmpromіce for true meat lovers.",
               imageUrl: 'https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?q=80&w=1000'
           ),
           const SizedBox(height: 20),
