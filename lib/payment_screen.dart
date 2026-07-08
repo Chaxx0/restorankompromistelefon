@@ -21,7 +21,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       _isProcessing = true;
     });
 
-    // Simulating payment delay[cite: 14]
+    // Simulating payment delay
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() {
@@ -33,7 +33,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        // Closing window after successful payment[cite: 14]
+        // Closing window after successful payment
         Navigator.pop(context);
       }
     });
@@ -48,7 +48,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 22),
           onPressed: () {
-            // Standard window closing on back button[cite: 14]
+            // Standard window closing on back button
             Navigator.pop(context);
           },
         ),
@@ -88,7 +88,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           const SizedBox(height: 16),
                           Text('Checkout', style: TextStyle(color: primaryGold, fontSize: 24, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
-                          Text('Amount to pay: ${widget.amount} ₴', style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text('Amount to pay: \$${widget.amount}', style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 32),
 
                           _buildTextField('Card Number', '0000 0000 0000 0000', Icons.numbers),
